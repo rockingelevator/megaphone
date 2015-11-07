@@ -1,0 +1,31 @@
+{% extends 'main.jinja2' %}
+
+{% block title %}
+    Notifications
+{% endblock %}
+
+{% block view %}
+    <div id="notifications">
+        <form id="notification-form">
+            <select id="notification-type">
+                <option value="important">Important</option>
+                <option value="lunch">Lunch</option>
+                <option value="information">Information</option>
+                <option value="party">Party</option>
+            </select>
+            <textarea id="notification-text"></textarea>
+            <input type="submit" id="notification-submit" value="Add notification">
+        </form>
+        <ul>
+            <li>
+             <p class="time">16:03</p>
+             <p class="type">Lunchtime!</p>
+             <p class="text">Somenotification goes here</p>
+            </li>
+        </ul>
+    </div>
+    <div id="profile-wrapper">
+        <p>Username</p>
+        <p><a href="#">Logout</a></p>
+    </div>
+{% endblock %}

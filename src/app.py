@@ -1,0 +1,45 @@
+import asyncio
+from aiohttp_debugtoolbar import toolbar_middleware_factory
+import aiohttp_jinja2, jinja2
+from aiohttp import web
+from aiohttp_session import session_middleware
+from aiohttp_session.cookie_storage import EncryptedCookieStorage
+import src.handlers as handlers
+import settings as settings
+from aiopg.sa import create_engine
+
+
+# db middleware
+@asyncio.coroutine
+def db_middleware(app, handler):
+    @asyncio.coroutine
+    def middleware(request):
+        db = app.get('db')
+        if not db:
+            app['db'] = db = yield from create_engine(app['dsn'])
+        request.app['db'] = db
+        return (yield from handler(request))
+    return middleware
+
+
+# app initialization
+app = web.Application(middlewares=[
+    db_middleware,
+    toolbar_middleware_factory,
+    session_middleware(EncryptedCookieStorage(settings.SECRET_KEY))
+])
+
+# db settings
+app['dsn'] = 'postgres://explorer:explorer@127.0.0.1:5432/exploration'
+
+# configuring path to templates
+aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader('templates'))
+
+
+# configuring path for static files
+app.router.add_static('/static', 'static', name='static')
+
+# ROUTES
+app.router.add_route('GET', '/', handlers.home)
+app.router.add_route('GET', '/notifications', handlers.notifications, name="notifications")
+

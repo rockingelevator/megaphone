@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <title>
+        {% block title %}
+            Exploration
+        {% endblock %}
+    </title>
+</head>
+<body>
+    <h2>Exploration</h2>
+    {% block menu %}
+        <ul class="menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="{{ app.router['notifications'].url() }}">Demo</a></li>
+            <li><a href="#">GitHub</a></li>
+        </ul>
+    {% endblock %}
+    {% block view %}
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,14 @@
+{% extends 'main.jinja2' %}
+{%  block view %}
+    <div id="login-wrapper">
+        <form id="login-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username">
+            <br>
+            <label for="password">Password:</label>
+            <input type="password">
+            <br>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+{% endblock %}
