@@ -3,3 +3,4 @@ settings.py
 *.pyo
 __pychache__/
 */__pychache__/
+.idea/
