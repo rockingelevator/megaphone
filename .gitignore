@@ -1,1 +1,5 @@
 settings.py
+*.pyc
+*.pyo
+__pychache__/
+*/__pychache__/
