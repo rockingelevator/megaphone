@@ -17,6 +17,10 @@ ul.menu {
     background-color: #efefef;
 }
 
+p.error {
+    color: red;
+}
+
 #profile-wrapper {
     display: block;
     position: absolute;
@@ -31,6 +35,11 @@ ul.menu {
     display: block;
     float: right;
     margin: 20px 0 0 20px;
+}
+
+#home-wrapper {
+    width: 600px;
+    margin: 0 auto;
 }
 
 #login-wrapper {
