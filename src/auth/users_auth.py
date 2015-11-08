@@ -34,21 +34,6 @@ def hash_password(pwd, salt=None):
     return "$".join([algorithm.name, str(iterations), salt_to_str, key_to_str])
 
 
-#@asyncio.coroutine
-#def verify_password(email, pwd):
-
-    # engine = yield from create_engine(app["dsn"])
-    # with (yield from engine) as conn:
-    #     query = sa.select([users]).where(users.c.email == email)
-    #     res = yield from conn.execute(query)
-    #     for row in res:
-    #         salt_str = row["password"].split('$')[2]
-    #         salt = b64decode(salt_str)
-    #         hashed_pwd = hash_password(pwd, salt)
-    #         print(row["password"] == hashed_pwd) # Test
-    #         return row["password"] == hashed_pwd
-    #pass
-
 @asyncio.coroutine
 def verify_password(request):
     yield from request.post()
@@ -82,10 +67,5 @@ def verify_password(request):
 if __name__ == "__main__":
     pwd = hash_password("demo123")
     print("Hashed password:", pwd)
-    #print("Verifying password:")
-    #loop = asyncio.get_event_loop()
-    #asyncio.ensure_future(verify_password(1, 'demo123'))
-    #loop.run_forever()
-    #loop.close()
 
 
