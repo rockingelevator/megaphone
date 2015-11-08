@@ -1,16 +1,16 @@
 import os
 import asyncio
+import sqlalchemy as sa
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
-backend = default_backend()
 from base64 import b64encode, b64decode
-from src.app import app
-import sqlalchemy as sa
 from aiopg.sa import create_engine
+from src.app import app
 from src.models import users
 
-#from manage import loop
+
+backend = default_backend()
 
 
 def hash_password(pwd, salt=None):
