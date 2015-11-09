@@ -6,7 +6,6 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
 from base64 import b64encode, b64decode
 from aiopg.sa import create_engine
-# from src.app import app
 from src.models import users
 
 

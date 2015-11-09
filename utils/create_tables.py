@@ -1,7 +1,6 @@
-import src.models as models
+from src import models
 from src.app import app
 from sqlalchemy import create_engine
-from src.models import users
 from src.auth.users_auth import hash_password
 
 engine = create_engine(app['dsn'])
@@ -21,12 +20,36 @@ def drop_tables():
 
 def create_demo_user():
     pwd = hash_password("demo123")
-    query = users.insert().values(username="demo",
-                                  email="demo@demo.com",
-                                  password=pwd)
+    pwd2 = hash_password("123456")
+    records = [
+        {
+            "username": "demo",
+            "email": "demo@demo.com",
+            "password": pwd
+        },
+        {
+            "username": "test",
+            "email": "test@test.com",
+            "password": pwd2
+        }
+    ]
     conn = engine.connect()
-    res = conn.execute(query)
-    print(res.inserted_primary_key)
+    conn.execute(models.users.insert(), records)
+
+
+def create_demo_team():
+    query = models.teams.insert().values(
+        name="Demo Team",
+        slug="demo-team",
+        owner=1
+    )
+    conn = engine.connect()
+    conn.execute(query)
+    add_owner_relation = models.teams_users.insert().values(
+        team=1,
+        user=1
+    )
+    conn.execute(add_owner_relation)
 
 
 if __name__ == "__main__":
@@ -34,3 +57,4 @@ if __name__ == "__main__":
     drop_tables()
     create_tables()
     create_demo_user()
+    create_demo_team()

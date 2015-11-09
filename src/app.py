@@ -41,7 +41,7 @@ app.router.add_static('/static', 'static', name='static')
 # ROUTES
 app.router.add_route('GET', '/', handlers.home)
 app.router.add_route('GET',
-                     '/notifications',
+                     '/{team_slug}/notifications',
                      handlers.notifications,
                      name="notifications"
                      )

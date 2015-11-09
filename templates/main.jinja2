@@ -13,7 +13,7 @@
     {% block menu %}
         <ul class="menu">
             <li><a href="/">Home</a></li>
-            <li><a href="{{ app.router['notifications'].url() }}">Demo</a></li>
+            <li><a href="{{ app.router['notifications'].url(parts={'team_slug':'demo-team'}) }}">Demo</a></li>
             <li><a href="#">GitHub</a></li>
         </ul>
     {% endblock %}

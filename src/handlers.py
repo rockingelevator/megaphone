@@ -1,8 +1,12 @@
-import aiohttp
+import asyncio
 import aiohttp_jinja2
+import sqlalchemy as sa
 from aiohttp import web
-from src.auth.users_auth import verify_password
 from aiohttp_session import get_session
+from src.auth.users_auth import verify_password
+from src import models
+
+
 
 def redirect_if_not_logged_in(fn):
     """
@@ -16,6 +20,31 @@ def redirect_if_not_logged_in(fn):
             return (await fn(request))
     return check_auth
 
+def check_if_user_in_team(handler):
+    @asyncio.coroutine
+    def check(request):
+        url_to_login = request.app.router['login'].url()
+        session = yield from get_session(request)
+        if not 'user_id' in session:
+            print('Team is not allowed, sign in first')
+            return web.HTTPFound(url_to_login)
+        team_slug = request.match_info['team_slug']
+        with (yield from request.app["db"]) as conn:
+            team_query = sa.select([models.teams]).where(models.teams.c.slug==team_slug)
+            select_team = yield from conn.execute(team_query)
+            try:
+                team = list(select_team)[0]
+            except IndexError:
+                return web.HTTPNotFound()
+            else:
+                relation_query = sa.select([models.teams_users])\
+                    .where(sa.and_(models.teams_users.c.team==team['id'],
+                           models.teams_users.c.user==session['user_id']))
+                find_relation = yield from conn.execute(relation_query)
+                if not list(find_relation):
+                    return web.HTTPNotFound()# user is not in this team, return 404
+                return (yield from handler(request))
+    return check
 
 
 @aiohttp_jinja2.template('home.jinja2')
@@ -25,9 +54,12 @@ async def home(request):
 @aiohttp_jinja2.template('login.jinja2')
 async def login(request):
     session = await get_session(request)
-    redirect_url = request.app.router["notifications"].url()
+    redirect_url = request.app.router["notifications"].url(parts={
+        'team_slug': 'demo-team'
+    })
     if request.method == 'GET':
         if 'user_id' in session:
+            print('redirecting to notifications')
             return web.HTTPFound(redirect_url)
         return {}
     elif request.method == 'POST':
@@ -46,8 +78,9 @@ async def logout(request):
 
 
 @aiohttp_jinja2.template('notifications.jinja2')
-@redirect_if_not_logged_in
+@check_if_user_in_team
 async def notifications(request):
+
     return {}
 
 # async def websocket_handler(request):
