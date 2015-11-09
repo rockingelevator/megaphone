@@ -2,7 +2,7 @@ import asyncio
 import aiohttp_debugtoolbar
 from src.app import app
 
-aiohttp_debugtoolbar.setup(app)
+aiohttp_debugtoolbar.setup(app, intercept_redirects=False)
 
 loop = asyncio.get_event_loop()
 handler = app.make_handler()

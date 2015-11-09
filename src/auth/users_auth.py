@@ -36,10 +36,10 @@ def hash_password(pwd, salt=None):
 
 @asyncio.coroutine
 def verify_password(request):
-    yield from request.post()
+    data = yield from request.post()
     try:
-        email = request.POST['email']
-        pwd = request.POST['password']
+        email = data['email']
+        pwd = data['password']
     except KeyError:
         return {'error': 'Enter email and password'}
     else:
@@ -59,7 +59,7 @@ def verify_password(request):
                     hashed_pwd = hash_password(pwd, salt)
                     if row["password"] == hashed_pwd:
                         return {'error': None,
-                                'verified': True }
+                                'user_id': row["id"] }
                     else:
                         return {'error': 'Invalid email/password combination'}
 

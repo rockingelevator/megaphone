@@ -30,18 +30,22 @@ app = web.Application(middlewares=[
 ])
 
 # db settings
-app['dsn'] = 'postgres://explorer:explorer@127.0.0.1:5432/exploration'
+app['dsn'] = settings.DSN
 
 # configuring path to templates
 aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader('templates'))
-
 
 # configuring path for static files
 app.router.add_static('/static', 'static', name='static')
 
 # ROUTES
 app.router.add_route('GET', '/', handlers.home)
-app.router.add_route('GET', '/notifications', handlers.notifications, name="notifications")
+app.router.add_route('GET',
+                     '/notifications',
+                     handlers.notifications,
+                     name="notifications"
+                     )
 app.router.add_route('GET', '/login', handlers.login, name="login")
 app.router.add_route('POST', '/login', handlers.login, name="submit_login")
+app.router.add_route('GET', '/logout', handlers.logout, name="logout")
 
