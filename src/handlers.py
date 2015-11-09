@@ -43,7 +43,7 @@ def check_if_user_in_team(handler):
                 rel = yield from find_relation.first()
                 if not rel:
                     return web.HTTPNotFound()# user is not in this team, return 404
-                return (yield from handler(request))
+                return (yield from handler(request, team))
     return check
 
 
@@ -80,10 +80,19 @@ async def logout(request):
 @aiohttp_jinja2.template('notifications.jinja2')
 @check_if_user_in_team
 @asyncio.coroutine
-def notifications(request):
-    # with(yield from request.app['db']) as conn:
+def notifications(request, team):
+    with(yield from request.app['db']) as conn:
+        notif = models.notifications.alias()
+        recent_notif_query = sa.select([notif])\
+            .where(notif.c.team == team['id'])\
+            .order_by(sa.desc(notif.c.creation_date))\
+            .limit(20)
+        n_list = yield from (yield from conn.execute(recent_notif_query)).fetchall()
+    return {
+        'team': team,
+        'n_list': n_list
+    }
 
-    return {}
 
 # async def websocket_handler(request):
 #     ws = web.WebSocketResponse()

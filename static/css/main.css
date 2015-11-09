@@ -7,9 +7,12 @@ body > h2 {
     width: 100%;
 }
 
+ul, li {
+    display: block;
+}
+
 ul.menu {
     position: absolute;
-    display: block;
     width: 200px;
     height: 100%;
     top: 0;
@@ -82,10 +85,15 @@ p.error {
 }
 
 #notifications ul {
-    display: block;
     width: 100%;
     height: auto;
     list-style-type: none;
+    clear: both;
+}
+
+#notifications ul li {
+    width: 100%;
+    overflow: auto;
 }
 
 #notifications ul li p {

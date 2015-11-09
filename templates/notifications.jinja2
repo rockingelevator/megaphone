@@ -17,11 +17,13 @@
             <input type="submit" id="notification-submit" value="Add notification">
         </form>
         <ul>
-            <li>
-             <p class="time">16:03</p>
-             <p class="type">Lunchtime!</p>
-             <p class="text">Somenotification goes here</p>
-            </li>
+            {% for item in n_list %}
+                <li>
+                 <p class="time">{{ item.creation_date.strftime('%-H:%M') }}</p>
+                 <p class="type">{{ item.type }}</p>
+                 <p class="text">{{ item.message }}</p>
+                </li>
+            {% endfor %}
         </ul>
     </div>
     <div id="profile-wrapper">
