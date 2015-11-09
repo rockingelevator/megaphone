@@ -32,16 +32,16 @@ def check_if_user_in_team(handler):
         with (yield from request.app["db"]) as conn:
             team_query = sa.select([models.teams]).where(models.teams.c.slug==team_slug)
             select_team = yield from conn.execute(team_query)
-            try:
-                team = list(select_team)[0]
-            except IndexError:
+            team = yield from select_team.first()
+            if not team:
                 return web.HTTPNotFound()
             else:
                 relation_query = sa.select([models.teams_users])\
                     .where(sa.and_(models.teams_users.c.team==team['id'],
                            models.teams_users.c.user==session['user_id']))
                 find_relation = yield from conn.execute(relation_query)
-                if not list(find_relation):
+                rel = yield from find_relation.first()
+                if not rel:
                     return web.HTTPNotFound()# user is not in this team, return 404
                 return (yield from handler(request))
     return check
@@ -79,7 +79,9 @@ async def logout(request):
 
 @aiohttp_jinja2.template('notifications.jinja2')
 @check_if_user_in_team
-async def notifications(request):
+@asyncio.coroutine
+def notifications(request):
+    # with(yield from request.app['db']) as conn:
 
     return {}
 
