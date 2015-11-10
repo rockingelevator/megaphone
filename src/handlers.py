@@ -22,7 +22,7 @@ def redirect_if_not_logged_in(fn):
 
 def check_if_user_in_team(handler):
     @asyncio.coroutine
-    def check(request):
+    def check(request, **kwargs):
         url_to_login = request.app.router['login'].url()
         session = yield from get_session(request)
         if not 'user_id' in session:
@@ -43,7 +43,7 @@ def check_if_user_in_team(handler):
                 rel = yield from find_relation.first()
                 if not rel:
                     return web.HTTPNotFound()# user is not in this team, return 404
-                return (yield from handler(request, team))
+                return (yield from handler(request, team=team, **kwargs))
     return check
 
 
@@ -80,7 +80,7 @@ async def logout(request):
 @aiohttp_jinja2.template('notifications.jinja2')
 @check_if_user_in_team
 @asyncio.coroutine
-def notifications(request, team):
+def notifications(request, team=None):
     with(yield from request.app['db']) as conn:
         notif = models.notifications.alias()
         recent_notif_query = sa.select([notif])\
