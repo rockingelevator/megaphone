@@ -7,7 +7,7 @@ from aiohttp_session.cookie_storage import EncryptedCookieStorage
 import src.handlers as handlers
 import settings as settings
 from aiopg.sa import create_engine
-
+from src.api import handlers as api_handlers
 
 # db middleware
 @asyncio.coroutine
@@ -48,4 +48,5 @@ app.router.add_route('GET',
 app.router.add_route('GET', '/login', handlers.login, name="login")
 app.router.add_route('POST', '/login', handlers.login, name="submit_login")
 app.router.add_route('GET', '/logout', handlers.logout, name="logout")
-
+#API routes
+app.router.add_route('GET', '/api/{team_slug}/notifications', api_handlers.notifications, name="api.notifications")
