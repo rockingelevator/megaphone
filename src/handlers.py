@@ -7,7 +7,6 @@ from src.auth.users_auth import verify_password
 from src import models
 
 
-
 def redirect_if_not_logged_in(fn):
     """
     Decorator for handlers, redirects to login page if user is not signed in
@@ -19,6 +18,7 @@ def redirect_if_not_logged_in(fn):
         else:
             return (await fn(request))
     return check_auth
+
 
 def check_if_user_in_team(handler):
     @asyncio.coroutine

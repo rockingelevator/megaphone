@@ -4,9 +4,11 @@ import aiohttp_jinja2, jinja2
 from aiohttp import web
 from aiohttp_session import session_middleware
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
+from aiopg.sa import create_engine
+from aiohttp_utils.routing import add_route_context
 import src.handlers as handlers
 import settings as settings
-from aiopg.sa import create_engine
+
 from src.api import handlers as api_handlers
 
 # db middleware
@@ -49,4 +51,8 @@ app.router.add_route('GET', '/login', handlers.login, name="login")
 app.router.add_route('POST', '/login', handlers.login, name="submit_login")
 app.router.add_route('GET', '/logout', handlers.logout, name="logout")
 #API routes
-app.router.add_route('GET', '/api/{team_slug}/notifications', api_handlers.notifications, name="api.notifications")
+with add_route_context(app, module='src.api.handlers',
+                       url_prefix='/api/', name_prefix='api') as route:
+    route('GET', '/{team_slug}/notifications', 'notifications')
+
+print(app.router['api.notifications'].url(parts={'team_slug': 'demo-team'}))
