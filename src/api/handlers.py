@@ -1,7 +1,9 @@
 import asyncio
 import sqlalchemy as sa
+import datetime
 from aiohttp import web
 from utils.utils import json_response, is_iterable
+from aiohttp_session import get_session
 from src.handlers import check_if_user_in_team
 from src import models
 
@@ -36,6 +38,28 @@ def notifications(request, team=None, limit=20, offset=0):
             .offset(offset)
         return (yield from conn.execute(n_query))
 
+
+@check_if_user_in_team
+@asyncio.coroutine
+def add_notification(request, team=None):
+    data = yield from request.post()
+    type = data.get('type', '')
+    message = data.get('message', '')
+    if not type or not message:
+        return web.HTTPBadRequest(reason='Type and message are required')
+    session = yield from get_session(request)
+    with(yield from request.app['db']) as conn:
+        ins_query = models.notifications.insert().values(
+            team=team['id'],
+            author_id=session['user_id'],
+            type=type,
+            message=message,
+            creation_date=datetime.datetime.now()
+        )
+        if(yield from conn.execute(ins_query)):
+            return web.HTTPCreated()
+        else:
+            return web.HTTPBadRequest(reason='Error while saving')
 
 
 

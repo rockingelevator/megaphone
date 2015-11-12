@@ -6,14 +6,14 @@
 
 {% block view %}
     <div id="notifications">
-        <form id="notification-form">
-            <select id="notification-type">
-                <option value="important">Important</option>
-                <option value="lunch">Lunch</option>
-                <option value="information">Information</option>
-                <option value="party">Party</option>
+        <form id="notification-form" action="/api/demo-team/notifications/add" method="POST">
+            <select id="notification-type" name="type">
+                <option value="Important">Important</option>
+                <option value="Lunchtime">Lunch</option>
+                <option value="Information">Information</option>
+                <option value="Party">Party</option>
             </select>
-            <textarea id="notification-text"></textarea>
+            <textarea id="notification-text" name="message"></textarea>
             <input type="submit" id="notification-submit" value="Add notification">
         </form>
         <ul>
