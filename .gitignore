@@ -4,3 +4,4 @@ settings.py
 __pychache__/
 */__pychache__/
 .idea/
+node_modules
