@@ -1,14 +1,12 @@
 {% extends "main.jinja2" %}
 {%  block view %}
     <div id="login-wrapper">
+        <img class="logo" src="/static/img/loudspeaker.svg">
+        <h1>Login</h1>
         <form id="login-form" action="{{ app.router['submit_login'].url() }}" method="post">
-            <label for="email">Email:</label>
-            <input type="text" name="email">
-            <br>
-            <label for="password">Password:</label>
-            <input type="password" name="password">
-            <br>
-            <input type="submit" value="Login">
+            <input class="textinput" type="text" name="email" placeholder="Email">
+            <input class="textinput" type="password" name="password" placeholder="Password">
+            <a class="btn" href="#" onclick="document.getElementById('login-form').submit()">Login</a>
         </form>
         <p class="error">{{ error }}</p>
         <p>{{ result }}</p>

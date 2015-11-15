@@ -19,6 +19,10 @@ li {
 a {
   text-decoration: none;
 }
+input,
+a {
+  outline: 0 !important;
+}
 a#burger {
   position: absolute;
   display: block;
@@ -59,6 +63,9 @@ a.btn:hover {
   background-color: #333;
   color: #fff;
 }
+form a.btn {
+  margin-top: 10px;
+}
 ul.menu {
   position: absolute;
   width: 200px;
@@ -92,15 +99,41 @@ p.error {
 #home-wrapper p {
   margin: 10px 0 20px 0;
 }
+#home-wrapper img.logo {
+  margin-top: 80px;
+}
 img.logo {
   width: 60px;
-  margin-top: 80px;
 }
 #login-wrapper {
   display: block;
   width: 400px;
   height: auto;
   margin: 0 auto;
+  text-align: center;
+}
+#login-wrapper img.logo {
+  margin-top: 80px;
+}
+#login-wrapper a.btn {
+  display: block;
+  margin-top: 40px;
+}
+#login-wrapper input {
+  text-align: center;
+}
+.textinput {
+  display: block;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 0;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #aeaeae;
+  color: #333;
+  font-size: 16px;
+  margin: 10px 0;
 }
 #notifications {
   display: block;
