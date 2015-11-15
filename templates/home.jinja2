@@ -1,6 +1,9 @@
 {% extends 'main.jinja2' %}
 {% block view %}
     <div id="home-wrapper">
-        <p><a href="{{ app.router['login'].url() }}">Login</a></p>
+        <img class="logo" src="/static/img/loudspeaker.svg">
+        <h1>Notifications for teams</h1>
+        <p>Demo web app based on aiohttp.web and React</p>
+        <p><a class="btn" href="#">Start demo</a></p>
     </div>
 {% endblock %}

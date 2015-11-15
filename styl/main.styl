@@ -1,58 +1,122 @@
-body {
-    background-color: #f5f5f5;
-}
+border-radius()
+  -webkit-border-radius arguments
+  -moz-border-radius arguments
+  border-radius arguments
 
-body > h2 {
-    text-align: center;
-    width: 100%;
-}
 
-ul, li {
-    display: block;
-}
+body
+    background-color #f5f5f5
+    font-family 'Open Sans', Helvetica, sans-serif
 
-ul.menu {
-    position: absolute;
-    width: 200px;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: #efefef;
-}
 
-p.error {
-    color: red;
-}
+h1, h2
+    font-family 'Fjord One', Georgia, serif
+    color #333
+    margin-bottom 0px
 
-#profile-wrapper {
-    display: block;
-    position: absolute;
-    width: 300px;
-    height: 50px;
-    top: 0;
-    right: 0;
-    padding: 0 20px;
-}
 
-#profile-wrapper p {
+body > h2
+    text-align center
+    width 100%
+
+
+ul, li
+    display block
+
+a
+    text-decoration none
+
+a#burger
+    position absolute
+    display block
+    color #333
+    top 20px
+    left 20px
+    box-sizing border-box
+    padding 5px
+    border 1px solid transparent
+
+
+    i
+      font-size 20px
+
+
+a#burger:hover
+    border 1px solid #333333
+    border-radius(3px)
+
+
+#profile
+    position absolute
+    display block
+    right 20px
+    top 20px
+
+
+a.btn
+    box-sizing border-box
+    padding 10px 15px
+    text-transform uppercase
+    font-size 11px
+    color #333333
+    border 1px solid #333333
+    border-radius(3px)
+
+a.btn:hover
+    background-color #333
+    color #ffffff
+
+ul.menu
+    position absolute
+    width 200px
+    height 100%
+    top 0
+    left 0
+    background-color #efefef
+
+
+p.error
+    color red
+
+
+#profile-wrapper
+    display: block
+    position: absolute
+    width: 300px
+    height: 50px
+    top: 0
+    right: 0
+    padding: 0 20px
+
+
+#profile-wrapper p
     display: block;
     float: right;
     margin: 20px 0 0 20px;
-}
 
-#home-wrapper {
+
+#home-wrapper
     width: 600px;
     margin: 0 auto;
-}
+    text-align center
 
-#login-wrapper {
+    p
+        margin 10px 0 20px 0
+
+
+img.logo
+    width 60px
+    margin-top 80px
+
+
+#login-wrapper
     display: block;
     width: 400px;
     height: auto;
     margin: 0 auto;
-}
 
-#notifications {
+
+#notifications
     display: block;
     position: relative;
     width: 640px;
@@ -61,52 +125,52 @@ p.error {
     box-sizing: border-box;
     padding: 20px;
     box-sizing: border-box;
-}
 
-#notification-form {
+
+#notification-form
     width: 100%;
     height: 50px;
-}
 
-#notification-form select {
+
+#notification-form select
     width: 25%;
     margin: 0 2% 0 0;
-}
 
-#notification-form textarea {
+
+#notification-form textarea
     height: 20px;
     width: 70%;
     margin: 0;
-}
 
-#notification-submit {
+
+#notification-submit
     float: right;
     margin: 20px 0;
-}
 
-#notifications ul {
+
+#notifications ul
     width: 100%;
     height: auto;
     list-style-type: none;
     clear: both;
-}
 
-#notifications ul li {
+
+#notifications ul li
     width: 100%;
     overflow: auto;
-}
 
-#notifications ul li p {
+
+#notifications ul li p
     display: block;
     float: left;
     margin: 30px 20px 0 0;
-}
 
-#notifications ul li p.time {
+
+#notifications ul li p.time
     color: #ccc;
-}
 
-#notifications ul li p.type {
+
+#notifications ul li p.type
     font-weight: bold;
-}
+
 
