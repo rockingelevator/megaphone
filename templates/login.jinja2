@@ -1,7 +1,9 @@
 {% extends "main.jinja2" %}
 {%  block view %}
     <div id="login-wrapper">
-        <img class="logo" src="/static/img/loudspeaker.svg">
+        <a href="{{ app.router['home'].url() }}">
+            <img class="logo" src="/static/img/loudspeaker.svg">
+        </a>
         <h1>Login</h1>
         <form id="login-form" action="{{ app.router['submit_login'].url() }}" method="post">
             <input class="textinput" type="text" name="email" placeholder="Email">

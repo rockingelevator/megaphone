@@ -6,6 +6,15 @@
 
 {% block view %}
     <div id="notifications">
+        <a href="{{ app.router['home'].url() }}">
+            <img class="logo" src="/static/img/loudspeaker.svg">
+        </a>
+        <p class="actions">
+            <a class="btn fancy" id="create-thread" href="#">
+                <i class="icon-plus-circled"></i>
+                New thread
+            </a>
+        </p>
         <form id="notification-form" action="/api/demo-team/notifications/add" method="POST">
             <select id="notification-type" name="type">
                 <option value="Important">Important</option>
@@ -20,14 +29,14 @@
             {% for item in n_list %}
                 <li>
                  <p class="time">{{ item.creation_date.strftime('%-H:%M') }}</p>
-                 <p class="type">{{ item.type }}</p>
-                 <p class="text">{{ item.message }}</p>
+                 <p class="message">
+                     <i class="icon-fire-station red"></i>
+                     <span class="text">
+                         <strong>{{ item.type }}</strong>&nbsp;&nbsp;{{ item.message }}
+                     </span>
+                 </p>
                 </li>
             {% endfor %}
         </ul>
-    </div>
-    <div id="profile-wrapper">
-        <p>Username</p>
-        <p><a href="#">Logout</a></p>
     </div>
 {% endblock %}

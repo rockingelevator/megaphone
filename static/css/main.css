@@ -1,6 +1,10 @@
 body {
-  background-color: #f5f5f5;
+  background-color: #e5e5e5;
   font-family: 'Open Sans', Helvetica, sans-serif;
+  font-weight: 400;
+}
+strong {
+  font-weight: 700;
 }
 h1,
 h2 {
@@ -15,6 +19,7 @@ body > h2 {
 ul,
 li {
   display: block;
+  padding: 0;
 }
 a {
   text-decoration: none;
@@ -27,7 +32,7 @@ a#burger {
   position: absolute;
   display: block;
   color: #333;
-  top: 20px;
+  top: 10px;
   left: 20px;
   box-sizing: border-box;
   padding: 5px;
@@ -47,6 +52,42 @@ a#burger:hover {
   display: block;
   right: 20px;
   top: 20px;
+}
+a.ava {
+  width: 35px;
+  height: 35px;
+  display: block;
+  background-color: #eee;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+a.ava img {
+  width: 35px;
+  height: 35px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+a.ava i {
+  display: block;
+  position: absolute;
+  font-size: 24px;
+  top: -1px;
+  left: 1px;
+  color: #fff;
+}
+a.ava.logout i {
+  display: none;
+}
+a.ava.logout:hover {
+  background-color: #ec5a48;
+}
+a.ava.logout:hover img {
+  display: none;
+}
+a.ava.logout:hover i {
+  display: block;
 }
 a.btn {
   box-sizing: border-box;
@@ -75,7 +116,7 @@ ul.menu {
   background-color: #efefef;
 }
 p.error {
-  color: #f00;
+  color: #ec5a48;
 }
 #profile-wrapper {
   display: block;
@@ -135,17 +176,8 @@ img.logo {
   font-size: 16px;
   margin: 10px 0;
 }
-#notifications {
-  display: block;
-  position: relative;
-  width: 640px;
-  height: auto;
-  margin: 0 auto;
-  box-sizing: border-box;
-  padding: 20px;
-  box-sizing: border-box;
-}
 #notification-form {
+  display: none;
   width: 100%;
   height: 50px;
 }
@@ -162,6 +194,30 @@ img.logo {
   float: right;
   margin: 20px 0;
 }
+#notifications {
+  display: block;
+  position: relative;
+  width: 90%;
+  max-width: 700px;
+  height: auto;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+}
+#notifications .logo {
+  margin: 0 auto;
+}
+#notifications p.actions {
+  width: 100%;
+  text-align: left;
+  margin: 10px 0;
+}
+#notifications #create-thread {
+  float: left;
+  margin: 10px 0;
+}
 #notifications ul {
   width: 100%;
   height: auto;
@@ -171,15 +227,76 @@ img.logo {
 #notifications ul li {
   width: 100%;
   overflow: auto;
+  box-sizing: border-box;
+  padding: 15px 0;
 }
 #notifications ul li p {
   display: block;
   float: left;
-  margin: 30px 20px 0 0;
+  margin: 0;
+  font-size: 14px;
 }
 #notifications ul li p.time {
-  color: #ccc;
+  color: #a0a0a0;
+  font-size: 12px;
+  margin-left: -50px;
+  margin-top: 15px;
+  position: absolute;
 }
-#notifications ul li p.type {
-  font-weight: bold;
+#notifications ul li p.message {
+  width: 98%;
+  background-color: #efefef;
+  border: 1px solid #cfcfcf;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  box-shadow: 0 2px 0 rgba(215,215,215,0.5);
+  box-sizing: border-box;
+  padding: 6px 20px 0 8px;
+  min-height: 45px;
+  text-align: left;
+}
+#notifications ul li p.message i {
+  display: block;
+  float: left;
+  width: 30px;
+  height: 30px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  font-size: 20px;
+  color: #fff;
+  box-sizing: border-box;
+  padding: 1px 2px;
+}
+#notifications ul li p.message .text {
+  display: block;
+  float: left;
+  margin: 5px 0 0 15px;
+}
+.red {
+  background-color: #ec5a48;
+}
+.yellow {
+  background-color: #f3bf13;
+}
+a.btn.fancy {
+  display: block;
+  height: 30px;
+  background-color: #7ac7c5;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 1px 0 rgba(34,117,115,0.64);
+  box-sizing: border-box;
+  padding: 7px 15px;
+  color: #1b6967;
+}
+a.btn.fancy i {
+  margin-left: -5px;
+}
+a.btn.fancy:hover {
+  color: #1b6967;
+  background-color: #7cd6d4;
 }

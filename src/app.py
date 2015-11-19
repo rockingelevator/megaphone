@@ -41,7 +41,7 @@ aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader('templates'))
 app.router.add_static('/static', 'static', name='static')
 
 # ROUTES
-app.router.add_route('GET', '/', handlers.home)
+app.router.add_route('GET', '/', handlers.home, name="home")
 app.router.add_route('GET',
                      '/{team_slug}/notifications',
                      handlers.notifications,
