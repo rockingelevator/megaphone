@@ -10,20 +10,20 @@
             <img class="logo" src="/static/img/loudspeaker.svg">
         </a>
         <p class="actions">
-            <a class="btn fancy" id="create-thread" href="#">
+            <a class="btn fancy" id="create-notification" href="#">
                 <i class="icon-plus-circled"></i>
-                New thread
+                Create notification
             </a>
         </p>
         <form id="notification-form" action="/api/demo-team/notifications/add" method="POST">
-            <select id="notification-type" name="type">
+            <select id="notification-type" name="type" class="textinput">
                 <option value="Important">Important</option>
                 <option value="Lunchtime">Lunch</option>
                 <option value="Information">Information</option>
                 <option value="Party">Party</option>
             </select>
-            <textarea id="notification-text" name="message"></textarea>
-            <input type="submit" id="notification-submit" value="Add notification">
+            <textarea id="notification-text" name="message" class="textinput"></textarea>
+            <a id="btn-create-notification" class="btn" href="#">Create notification</a>
         </form>
         <ul>
             {% for item in n_list %}
