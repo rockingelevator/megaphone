@@ -7,7 +7,7 @@ from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from aiopg.sa import create_engine
 from aiohttp_utils.routing import add_route_context
 import src.handlers as handlers
-import settings as settings
+import settings
 
 from src.api import handlers as api_handlers
 
