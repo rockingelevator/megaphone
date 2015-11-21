@@ -28,7 +28,7 @@ gulp.task('js', function(){
         .pipe(gulp.dest('./static/dist/js'))
 });
 
-gulp.task('react', function(){
+gulp.task('default', function(){
     var bundler = watchify(browserify({
         entries: ['./static/scripts/components/app.jsx'],
         transform: [reactify],
@@ -51,8 +51,8 @@ gulp.task('react', function(){
     build();
     bundler.on('update', build);
 
+    gulp.watch('./styl/**/*.styl', ['stylus']);
 });
 
-gulp.task('default', ['stylus', 'cssBuild', 'js']);
 
 

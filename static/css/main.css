@@ -1,3 +1,15 @@
+.red {
+  background-color: #ec5a48;
+}
+.yellow {
+  background-color: #f3bf13;
+}
+.blue {
+  background-color: #13c9f3;
+}
+.pink {
+  background-color: #ff63d0;
+}
 body {
   background-color: #e5e5e5;
   font-family: 'Open Sans', Helvetica, sans-serif;
@@ -281,12 +293,6 @@ img.logo {
   display: block;
   float: left;
   margin: 5px 0 0 15px;
-}
-.red {
-  background-color: #ec5a48;
-}
-.yellow {
-  background-color: #f3bf13;
 }
 a.btn.fancy {
   display: block;
