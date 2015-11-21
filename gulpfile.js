@@ -3,6 +3,11 @@ var stylus = require('gulp-stylus');
 var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
+var watchify = require('watchify');
+var gutil = require('gulp-util');
+var source = require('vinyl-source-stream');
+var browserify = require('browserify');
+var reactify = require('reactify');
 
 gulp.task('stylus', function() {
     gulp.src('./styl/**/*.styl')
@@ -23,4 +28,31 @@ gulp.task('js', function(){
         .pipe(gulp.dest('./static/dist/js'))
 });
 
+gulp.task('react', function(){
+    var bundler = watchify(browserify({
+        entries: ['./static/scripts/components/app.jsx'],
+        transform: [reactify],
+        extensions: ['.jsx'],
+        debug: true,
+        cache: {},
+        packageCache: {},
+        fullPaths: true
+    }));
+
+    function build(file) {
+        if(file) gutil.log('Recompiling ' + file);
+        return bundler
+            .bundle()
+            .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+            .pipe(source('main.js'))
+            .pipe(gulp.dest('./static/scripts/'));
+    };
+
+    build();
+    bundler.on('update', build);
+
+});
+
 gulp.task('default', ['stylus', 'cssBuild', 'js']);
+
+
