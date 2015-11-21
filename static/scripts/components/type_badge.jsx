@@ -2,6 +2,7 @@ var React = require('react');
 
 module.exports = React.createClass({
     render: function(){
+        var iconClass;
         switch(this.props.type.toLowerCase()){
             case 'important':
                 iconClass = "icon-fire-station red";
