@@ -27,7 +27,7 @@ teams_users = sa.Table('teams_users', metadata,
 notifications = sa.Table('notifications', metadata,
                          sa.Column('id', sa.Integer, primary_key=True),
                          sa.Column('team', None, sa.ForeignKey('teams.id')),
-                         sa.Column('author_id', None, sa.ForeignKey('users.id')),
+                         sa.Column('author', None, sa.ForeignKey('users.id')),
                          sa.Column('type', sa.String(255)),
                          sa.Column('message', sa.Text(convert_unicode=True)),
                          sa.Column('creation_date', sa.DateTime()))
