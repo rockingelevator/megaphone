@@ -7,7 +7,8 @@ users = sa.Table('users', metadata,
                  sa.Column('id', sa.Integer, primary_key=True),
                  sa.Column('username', sa.Unicode(40)),
                  sa.Column('email', sa.Unicode(253)),
-                 sa.Column('password', sa.String)
+                 sa.Column('password', sa.String),
+                 sa.Column('avatar', sa.String)
                  )
 
 teams = sa.Table('teams', metadata,

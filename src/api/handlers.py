@@ -6,7 +6,7 @@ from utils.utils import json_response, is_iterable
 from aiohttp_session import get_session
 from src.handlers import check_if_user_in_team
 from src import models
-from .storage import UserSchema, TeamSchema
+from .schemas import UserSchema, TeamSchema
 
 
 def to_json(handler):

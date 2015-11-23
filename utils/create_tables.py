@@ -25,12 +25,14 @@ def create_demo_user():
         {
             "username": "demo",
             "email": "demo@demo.com",
-            "password": pwd
+            "password": pwd,
+            "avatar": "eugene.png"
         },
         {
             "username": "test",
             "email": "test@test.com",
-            "password": pwd2
+            "password": pwd2,
+            "avatar": "helga.png"
         }
     ]
     conn = engine.connect()
