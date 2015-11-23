@@ -32,7 +32,7 @@ def notifications(request, team=None, limit=20, offset=0):
     with(yield from request.app['db']) as conn:
         nf = models.notifications.alias()
         us = models.users.alias()
-        result = []
+        items = []
 
         trans = yield from conn.begin()
 
@@ -48,14 +48,22 @@ def notifications(request, team=None, limit=20, offset=0):
                 author_query = sa.select([us]).where(us.c.id == item["author"])
                 author = yield from conn.execute(author_query)
                 item["author"] = yield from author.fetchone()
-                result.append(item)
+                items.append(item)
         except Exception:
             yield from trans.rollback()
         else:
             yield from trans.commit()
 
         schema = schemas.NotificationSchema(many=True)
-        return json_response(schema.dump(result).data)
+        result = {
+            'meta': {
+                'offset': offset,
+                'limit': limit
+            },
+            'items': schema.dump(items).data
+        }
+
+        return json_response(result)
 
 
 @check_if_user_in_team
