@@ -17,6 +17,7 @@ dill==0.2.4
 futures==3.0.3
 gunicorn==19.3.0
 idna==2.0
+marshmallow==2.2.1
 psycopg2==2.6.1
 pyasn1==0.1.9
 pycparser==2.14
