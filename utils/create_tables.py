@@ -23,12 +23,15 @@ def create_demo_user():
     pwd2 = hash_password("123456")
     records = [
         {
-            "username": "demo",
+            "first_name": "Eugene",
+            "last_name": "Coltraine",
             "email": "demo@demo.com",
             "password": pwd,
             "avatar": "eugene.png"
         },
         {
+            "first_name": "Helga",
+            "last_name": "Simone",
             "username": "test",
             "email": "test@test.com",
             "password": pwd2,

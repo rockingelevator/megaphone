@@ -3,8 +3,9 @@ from marshmallow import Schema, fields
 
 class UserSchema(Schema):
     password = fields.Str(load_only=True)
+    email = fields.Str(load_only=True)
     class Meta:
-        fields = ("id", "username", "email", "password", "avatar")
+        fields = ("id", "first_name", "last_name", "email", "password", "avatar")
 
 
 class TeamSchema(Schema):

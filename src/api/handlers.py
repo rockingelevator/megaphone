@@ -95,16 +95,21 @@ def users(request, **kwargs):
 @asyncio.coroutine
 def teams(request):
     with(yield from request.app['db']) as conn:
-        query = sa.select([models.teams])
-        ret = yield from conn.execute(query)
+        trans = yield from conn.begin()
         result = []
-        for row in ret:
-            item = dict(row)
-            owner = yield from conn.execute(sa.select([models.users])\
-                                                    .where(models.users.c.id == item['owner']))
-            item['owner'] = yield from owner.fetchone()
-            result.append(item)
+        try:
+            query = sa.select([models.teams])
+            teams = yield from conn.execute(query)
+            for row in teams:
+                item = dict(row)
+                owner = yield from conn.execute(sa.select([models.users])\
+                                                        .where(models.users.c.id == item['owner']))
+                item['owner'] = yield from owner.fetchone()
+                result.append(item)
+        except Exception:
+            yield from trans.rollback()
+        else:
+            yield from trans.commit()
         schema = schemas.TeamSchema(many=True)
-        result = schema.dump(result)
-        return json_response(result.data)
+        return json_response(schema.dump(result).data)
 
