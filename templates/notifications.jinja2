@@ -9,12 +9,9 @@
         <a href="{{ app.router['home'].url() }}">
             <img class="logo" src="/static/img/loudspeaker.svg">
         </a>
-        <p class="actions">
-            <a class="btn fancy" id="create-notification" href="#">
-                <i class="icon-plus-circled"></i>
-                Create notification
-            </a>
-        </p>
+        <div id="notification-form-wrapper"></div>
+        <!--<p class="actions" id="actions-panel"></p>
+        <div id="notification-form-wrapper"></div>-->
         <!--<form id="notification-form" action="/api/demo-team/notifications/add" method="POST">
             <select id="notification-type" name="type" class="textinput">
                 <option value="Important">Important</option>

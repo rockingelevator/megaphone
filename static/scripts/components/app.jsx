@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var NotificationsList = require('./notifications_list');
+var AddNotificationWidget = require('./add_notification');
 
 notificationsData = [
 	{
@@ -34,4 +35,10 @@ notificationsData = [
 ReactDOM.render(
 	<NotificationsList data={notificationsData}/>,
 	document.getElementById('notifications-list')
+);
+
+
+ReactDOM.render(
+	<AddNotificationWidget />,
+	document.getElementById('notification-form-wrapper')
 );

@@ -49,6 +49,7 @@ ul, li
 
 a
     text-decoration none
+    cursor pointer
 
 input, select, textarea, a
     outline 0 !important
@@ -212,13 +213,13 @@ img.logo
     min-height 35px
 
 
-#notification-form
+.notification-form
     width: 100%;
     height: 50px;
     margin-top 30px
 
 
-#notification-form select
+.notification-form select
     width: 20%;
     margin: 0 4% 0 0;
     height 35px
@@ -226,14 +227,14 @@ img.logo
     float left
 
 
-#notification-form textarea
+.notification-form textarea
     height: 20px;
     width: 73%;
     margin: 0;
     resize none
 
 
-#btn-create-notification
+.notification-form .btn
     float: right;
     margin: 20px;
 
@@ -259,7 +260,7 @@ img.logo
         text-align left
         margin 10px 0
 
-        #create-notification
+        a.btn.fancy
             margin 10px 0
             width 180px
             text-align center
