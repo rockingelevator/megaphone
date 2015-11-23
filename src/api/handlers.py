@@ -6,7 +6,7 @@ from utils.utils import json_response, is_iterable
 from aiohttp_session import get_session
 from src.handlers import check_if_user_in_team
 from src import models
-from .schemas import UserSchema, TeamSchema
+import src.api.schemas as schemas
 
 
 def to_json(handler):
@@ -26,25 +26,36 @@ def to_json(handler):
     return wrapped
 
 
-@to_json
 @check_if_user_in_team
 @asyncio.coroutine
 def notifications(request, team=None, limit=20, offset=0):
     with(yield from request.app['db']) as conn:
-        n = models.notifications.alias()
-        n_query = sa.select([n])\
-            .where(n.c.team == team['id'])\
-            .order_by(sa.desc(n.c.creation_date))\
-            .limit(limit)\
-            .offset(offset)
-        stmt = sa.select([models.users.c.id])\
-            .where(models.users.c.id == n.c.author_id)\
-            .correlate(n)
-        enclosing_smt = sa.select([models.users, n])\
-            .select_from(models.users.join(n))\
-            .where(models.users.c.id == stmt)
-        return (yield from conn.execute(enclosing_smt))
+        nf = models.notifications.alias()
+        us = models.users.alias()
+        result = []
 
+        trans = yield from conn.begin()
+
+        try:
+            nf_query = sa.select([nf])\
+                .where(nf.c.team == team["id"])\
+                .order_by(sa.desc(nf.c.creation_date))\
+                .limit(limit)\
+                .offset(offset)
+            nfs = yield from conn.execute(nf_query)
+            for n in nfs:
+                item = dict(n)
+                author_query = sa.select([us]).where(us.c.id == item["author"])
+                author = yield from conn.execute(author_query)
+                item["author"] = yield from author.fetchone()
+                result.append(item)
+        except Exception:
+            yield from trans.rollback()
+        else:
+            yield from trans.commit()
+
+        schema = schemas.NotificationSchema(many=True)
+        return json_response(schema.dump(result).data)
 
 
 @check_if_user_in_team
@@ -75,7 +86,7 @@ def users(request, **kwargs):
     with(yield from request.app['db']) as conn:
         query = sa.select([models.users])
         ret = yield from conn.execute(query)
-        schema = UserSchema(many=True)
+        schema = schemas.UserSchema(many=True)
         result = schema.dump(list(ret))
         #items = [schema.dump(row).data for row in ret] if is_iterable(ret) else []
         return json_response(result.data)
@@ -93,7 +104,7 @@ def teams(request):
                                                     .where(models.users.c.id == item['owner']))
             item['owner'] = yield from owner.fetchone()
             result.append(item)
-        schema = TeamSchema(many=True)
+        schema = schemas.TeamSchema(many=True)
         result = schema.dump(result)
         return json_response(result.data)
 

@@ -12,3 +12,9 @@ class TeamSchema(Schema):
     class Meta:
         fields = ("id", "name", "slug", "owner")
 
+
+class NotificationSchema(Schema):
+    #team = fields.Nested(TeamSchema)
+    author = fields.Nested(UserSchema)
+    class Meta:
+        fields = ("id", "team", "author", "type", "message", "creation_date")

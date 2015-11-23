@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from random import randint
 from src.app import app
 
+
 NOTIFICATION_TYPE = [
     'Important',
     'Lunch',
@@ -19,7 +20,7 @@ def fill_notifications():
     for i in range(40):
         rec = {
             'team': 1,
-            'author_id': 1,
+            'author': randint(1,2),
             'type': NOTIFICATION_TYPE[randint(0,3)],
             'message': "This is " + str(i) + "'s notification",
             'creation_date': datetime.datetime.now()
