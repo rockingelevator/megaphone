@@ -5,17 +5,21 @@ var moment = require('moment');
 module.exports = React.createClass({
     render: function(){
         var time = moment(this.props.data.creation_date).calendar();
+        var ava = "/static/img/avas/" + this.props.data.author.avatar;
         return <li>
-                <p className="time">
-                    {time}
-                </p>
-                 <p className="message">
-                     <TypeBadge type={this.props.data.type}/>
-                     <span className="text">
-                         <strong>{ this.props.data.type }</strong>&nbsp;&nbsp;
-                         { this.props.data.message }
-                     </span>
-                 </p>
+                    <p className="time">
+                        {time}
+                    </p>
+                    <p className="message">
+                        <TypeBadge type={this.props.data.type}/>
+                        <span className="text">
+                            <strong>{ this.props.data.type }</strong>&nbsp;&nbsp;
+                            { this.props.data.message }
+                        </span>
+                    </p>
+                    <a className="ava">
+                       <img src={ava}/>
+                    </a>
                 </li>
     }
 });

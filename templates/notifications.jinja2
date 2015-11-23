@@ -15,7 +15,7 @@
                 Create notification
             </a>
         </p>
-        <form id="notification-form" action="/api/demo-team/notifications/add" method="POST">
+        <!--<form id="notification-form" action="/api/demo-team/notifications/add" method="POST">
             <select id="notification-type" name="type" class="textinput">
                 <option value="Important">Important</option>
                 <option value="Lunchtime">Lunch</option>
@@ -24,20 +24,7 @@
             </select>
             <textarea id="notification-text" name="message" class="textinput"></textarea>
             <a id="btn-create-notification" class="btn" href="#">Create notification</a>
-        </form>
+        </form>-->
         <div id="notifications-list"></div>
-        <!--<ul>
-            {% for item in n_list %}
-                <li>
-                 <p class="time">{{ item.creation_date.strftime('%-H:%M') }}</p>
-                 <p class="message">
-                     <i class="icon-fire-station red"></i>
-                     <span class="text">
-                         <strong>{{ item.type }}</strong>&nbsp;&nbsp;{{ item.message }}
-                     </span>
-                 </p>
-                </li>
-            {% endfor %}
-        </ul>-->
     </div>
 {% endblock %}

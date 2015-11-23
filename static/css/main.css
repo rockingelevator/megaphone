@@ -257,11 +257,13 @@ img.logo {
   font-size: 14px;
 }
 #notifications ul li p.time {
+  width: 100px;
   color: #a0a0a0;
   font-size: 12px;
-  margin-left: -130px;
+  margin-left: -120px;
   margin-top: 15px;
   position: absolute;
+  text-align: left;
 }
 #notifications ul li p.message {
   width: 98%;
@@ -287,12 +289,17 @@ img.logo {
   font-size: 20px;
   color: #fff;
   box-sizing: border-box;
-  padding: 1px 2px;
+  padding: 1px;
 }
 #notifications ul li p.message .text {
   display: block;
   float: left;
   margin: 5px 0 0 15px;
+}
+#notifications ul li a.ava {
+  position: absolute;
+  right: -20px;
+  margin-top: 5px;
 }
 a.btn.fancy {
   display: block;
