@@ -3,13 +3,23 @@ var FancyButton = require('./fancy_btn');
 var NotificationForm = require('./add_notification_form');
 
 module.exports = React.createClass({
-   render: function(){
+    getInitialState: function(){
+        return {
+            open: false
+        };
+    },
+    openForm: function(){
+        this.setState({open: !this.state.open});
+    },
+    render: function(){
        return <div>
             <p className="actions">
-                <FancyButton value="Create Notification" iconClass="icon-plus-circled"/>
+                <FancyButton
+                    whenClicked={this.openForm} value={this.state.open ? "Cancel" : "Create notification"} iconClass={this.state.open ? "icon-minus" : "icon-plus-circled"}
+                />
             </p>
-            <NotificationForm />
+            <NotificationForm isVisible={this.state.open ? "show" : ""} />
        </div>
 
-   }
+    }
 });

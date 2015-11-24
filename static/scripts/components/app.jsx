@@ -31,14 +31,18 @@ notificationsData = [
 		creation_date: new Date()
 	}
 ];
+var nfList = document.getElementById('notifications-list');
+if(nfList) {
+	ReactDOM.render(
+			<NotificationsList data={notificationsData}/>,
+			nfList
+	);
+}
 
-ReactDOM.render(
-	<NotificationsList data={notificationsData}/>,
-	document.getElementById('notifications-list')
-);
-
-
-ReactDOM.render(
-	<AddNotificationWidget />,
-	document.getElementById('notification-form-wrapper')
-);
+var nfFormWrapper = document.getElementById('notification-form-wrapper');
+if(nfFormWrapper){
+	ReactDOM.render(
+		<AddNotificationWidget />,
+		nfFormWrapper
+	);
+}

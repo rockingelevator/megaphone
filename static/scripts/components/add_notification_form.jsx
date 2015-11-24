@@ -3,13 +3,16 @@ var Select = require('./select');
 var Button = require('./button');
 
 module.exports = React.createClass({
+    createNotification: function(){
+        console.log('creating notification');
+    },
     render: function(){
         var types = ["Important", "Lunch", "Information", "Party"]
-        return <form className="notification-form" action="/api/demo-team/notifications/add" method="POST">
+        return <form className={"notification-form " + this.props.isVisible}>
             <Select options={types}/>
             <textarea className="textinput">
             </textarea>
-            <Button value="Create notification"/>
+            <Button whenClicked={this.createNotification} value="Create notification"/>
         </form>
     }
 });
