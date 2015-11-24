@@ -2,47 +2,43 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var NotificationsList = require('./notifications_list');
 var AddNotificationWidget = require('./add_notification');
+var request = require('request-json');
+var rootUrl = "http://127.0.0.1:8080";
 
-notificationsData = [
-	{
-		id: 1,
-		team: 1,
-		author: {
-			id: 1,
-			first_name: 'Eugene',
-			last_name: 'Coltraine',
-			avatar: 'eugene.png'
-		},
-		type: 'Important',
-		message: 'First notification!',
-		creation_date: new Date()
+function getTeamSlug(url){
+	var parser = document.createElement('a');
+	parser.href = url;
+	return parser.pathname.split('/')[1];
+};
+
+var App = React.createClass({
+	getInitialState: function(){
+		return {
+			meta: {},
+			items: []
+		};
 	},
-	{
-		id: 2,
-		team: 1,
-		author: {
-			id: 2,
-			first_name: 'Helga',
-			last_name: 'Simone',
-			avatar: 'helga.png'
-		},
-		type: 'Lunch',
-		message: 'Second notification!',
-		creation_date: new Date()
+	componentDidMount: function(){
+		var client = request.createClient(rootUrl);
+		var team = getTeamSlug(document.URL);
+		var nfApiUrl = '/api/' + team + '/notifications';
+		client.get(nfApiUrl, function(err, res, data){
+			if(!err){
+				this.setState({meta: data.meta, items: data.items})
+			}
+		}.bind(this));
+	},
+	render: function(){
+		return <div>
+				<AddNotificationWidget />
+				<NotificationsList data={this.state.items} />
+			</div>
 	}
-];
-var nfList = document.getElementById('notifications-list');
-if(nfList) {
-	ReactDOM.render(
-			<NotificationsList data={notificationsData}/>,
-			nfList
-	);
-}
+});
 
-var nfFormWrapper = document.getElementById('notification-form-wrapper');
-if(nfFormWrapper){
-	ReactDOM.render(
-		<AddNotificationWidget />,
-		nfFormWrapper
-	);
-}
+
+ReactDOM.render(
+	<App />,
+	document.getElementById('content')
+);
+

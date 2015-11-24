@@ -9,10 +9,11 @@ var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var reactify = require('reactify');
 
+
 gulp.task('stylus', function() {
     gulp.src('./styl/**/*.styl')
         .pipe(stylus())
-    .pipe(gulp.dest('./static/css'))
+    .pipe(gulp.dest('./static/css'));
 });
 
 gulp.task('cssBuild', function(){
