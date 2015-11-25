@@ -1,7 +1,7 @@
 // url api helpers
 var request = require('request-json');
 var rootUrl = 'http://128.0.0.1:8080';
-var apiUrl = rootUrl + '/api';
+var apiPath = '/api';
 
 function ParamException(message){
     this.message = message;
@@ -45,7 +45,7 @@ module.exports = {
                     query += param + '=' + params[param] + '&';
                 }
             }
-            return (path + query);
+            return (apiPath + path + query);
         }
         catch(e){
             console.log(e.message, e.name);

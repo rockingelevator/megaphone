@@ -22,22 +22,12 @@ var App = React.createClass({
 		};
 	},
 	componentDidMount: function(){
-		/*var team = getTeamSlug(document.URL);
-		var nfApiUrl = '/api/' + team + '/notifications';
-		client.get(nfApiUrl, function(err, res, data){
-			if(!err){
-				this.setState({meta: data.meta, items: data.items})
-			}
-		}.bind(this));
-		*/
-		api.url('/:team/notifications',
-				{team: 'demo-team', abc: 'wow'});
-		/*client.get(api.url('/:team/notifications',
-				{team: 'demo-team'}),
-				function(err, res, data){
-					if(!err) this.setState({meta: data.meta, items: data.items});
-				}.bind(this));*/
-
+		client.get(api.url('/:team/notifications',
+			{team: 'demo-team'}),
+			function(err, res, data){
+				if(!err)
+					this.setState({meta: data.meta, items: data.items});
+			}.bind(this));
 	},
 	render: function(){
 		return <div>
