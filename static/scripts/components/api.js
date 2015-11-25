@@ -55,10 +55,15 @@ module.exports = {
     },
 
     get: function(path, params, callback){
-        url = this.ROOT_URL + this.makePath(path, params);
+        var url = this.ROOT_URL + this.makePath(path, params);
         $.getJSON(url, {}, function(data){
             callback(data);
         });
+    },
+
+    post: function(path, params, data, callback){
+        var url = this.ROOT_URL + this.makePath(path, params);
+        $.post(url, data, function(data){ callback(data); });
     }
 };
 

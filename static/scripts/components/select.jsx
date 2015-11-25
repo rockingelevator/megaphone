@@ -7,7 +7,7 @@ module.exports = React.createClass({
               {option}
           </option>
        });
-       return <select className="textinput">
+       return <select className="textinput" onChange={this.props.whenChanged}>
            {options}
            </select>
    }
