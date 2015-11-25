@@ -33,10 +33,13 @@ def notifications(request, team=None, limit=20, offset=0):
         nf = models.notifications.alias()
         us = models.users.alias()
         items = []
-
+        nf_count = 0;
         trans = yield from conn.begin()
 
         try:
+            nf_count = yield from conn.scalar(sa.select([sa.func.count(nf.c.id)])
+                                          .where(nf.c.team == team['id']))
+
             nf_query = sa.select([nf])\
                 .where(nf.c.team == team["id"])\
                 .order_by(sa.desc(nf.c.creation_date))\
@@ -58,7 +61,8 @@ def notifications(request, team=None, limit=20, offset=0):
         result = {
             'meta': {
                 'offset': offset,
-                'limit': limit
+                'limit': limit,
+                'total': nf_count
             },
             'items': schema.dump(items).data
         }
