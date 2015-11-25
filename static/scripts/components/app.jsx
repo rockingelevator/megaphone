@@ -3,6 +3,7 @@ var ReactDOM = require('react-dom');
 var NotificationsList = require('./notifications_list');
 var AddNotificationWidget = require('./add_notification');
 var request = require('request-json');
+var InfiniteScroll = require('./infinite_scroll')(React, ReactDOM);
 var api = require('./api');
 var rootUrl = "http://127.0.0.1:8080";
 
@@ -17,22 +18,38 @@ function getTeamSlug(url){
 var App = React.createClass({
 	getInitialState: function(){
 		return {
-			meta: {},
-			items: []
+			meta: {
+				offset: 0,
+				limit: 20
+			},
+			items: [],
+			hasMore: true,
 		};
 	},
-	componentDidMount: function(){
+	loadMore: function(){
 		client.get(api.url('/:team/notifications',
-			{team: 'demo-team'}),
+			{team: 'demo-team', offset: this.state.meta.offset, limit: this.state.meta.limit}),
 			function(err, res, data){
-				if(!err)
-					this.setState({meta: data.meta, items: data.items});
+				if(!err) {
+					var hasMore = this.state.items.length < data.meta.total ? true : false;
+					data.meta.offset += this.state.meta.limit;
+					this.setState({
+						meta: data.meta,
+						items: this.state.items.concat(data.items),
+						hasMore: hasMore
+					});
+				}
 			}.bind(this));
 	},
 	render: function(){
 		return <div>
 				<AddNotificationWidget />
-				<NotificationsList data={this.state.items} />
+				<InfiniteScroll
+					loadMore={this.loadMore}
+					hasMore={this.state.hasMore}
+				>
+					<NotificationsList data={this.state.items} />
+				</InfiniteScroll>
 			</div>
 	}
 });

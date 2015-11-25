@@ -29,6 +29,8 @@ def to_json(handler):
 @check_if_user_in_team
 @asyncio.coroutine
 def notifications(request, team=None, limit=20, offset=0):
+    limit = int(request.GET.get('limit', 20))
+    offset = int(request.GET.get('offset', 0))
     with(yield from request.app['db']) as conn:
         nf = models.notifications.alias()
         us = models.users.alias()
