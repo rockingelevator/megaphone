@@ -1,12 +1,11 @@
 // url api helpers
-var request = require('request-json');
 var rootUrl = 'http://128.0.0.1:8080';
 var apiPath = '/api';
 
 function ParamException(message){
     this.message = message;
     this.name = 'ParamException';
-};
+}
 
 ParamException.prototype = Error.prototype;
 
@@ -16,7 +15,10 @@ String.prototype.replaceKey=function(key, param) {
 }
 
 module.exports = {
-    url: function(path, params){
+
+    ROOT_URL: "http://127.0.0.1:8080/api",
+
+    makePath: function(path, params){
         try {
             //checking if all required params are given
             var pathKeys = [];
@@ -45,11 +47,18 @@ module.exports = {
                     query += param + '=' + params[param] + '&';
                 }
             }
-            return (apiPath + path + query);
+            return (path + query);
         }
         catch(e){
             console.log(e.message, e.name);
         }
+    },
+
+    get: function(path, params, callback){
+        url = this.ROOT_URL + this.makePath(path, params);
+        $.getJSON(url, {}, function(data){
+            callback(data);
+        });
     }
 };
 

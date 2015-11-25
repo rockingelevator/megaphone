@@ -84,7 +84,7 @@ def add_notification(request, team=None):
     with(yield from request.app['db']) as conn:
         ins_query = models.notifications.insert().values(
             team=team['id'],
-            author_id=session['user_id'],
+            author=session['user_id'],
             type=type,
             message=message,
             creation_date=datetime.datetime.now()

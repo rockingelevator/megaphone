@@ -18,7 +18,7 @@ module.exports = React.createClass({
                     whenClicked={this.openForm} value={this.state.open ? "Cancel" : "Create notification"} iconClass={this.state.open ? "icon-minus" : "icon-plus-circled"}
                 />
             </p>
-            <NotificationForm isVisible={this.state.open ? "show" : ""} />
+            <NotificationForm team={this.props.team} isVisible={this.state.open ? "show" : ""} />
        </div>
 
     }

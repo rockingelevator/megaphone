@@ -54,6 +54,6 @@ app.router.add_route('GET', '/logout', handlers.logout, name="logout")
 with add_route_context(app, module='src.api.handlers',
                        url_prefix='/api/', name_prefix='api') as route:
     route('GET', '/{team_slug}/notifications', 'notifications')
-    route('POST', '/{team_slug}/notifications/add', 'add_notification')
+    route('POST', '/{team_slug}/notifications', 'add_notification')
     route('GET', '/users', 'users')
     route('GET', '/teams', 'teams')

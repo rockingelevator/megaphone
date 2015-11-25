@@ -1,7 +1,11 @@
 var React = require('react');
 var Select = require('./select');
+var api = require('./api');
 
 module.exports = React.createClass({
+    componentDidMount: function(){
+
+    },
     getInitialState: function(){
       return {
           message: ''
@@ -11,7 +15,7 @@ module.exports = React.createClass({
         this.setState({message: event.target.value});
     },
     createNotification: function(){
-        console.log('creating notification');
+
     },
     render: function(){
         var types = ["Important", "Lunch", "Information", "Party"]

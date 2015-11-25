@@ -2,23 +2,21 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var NotificationsList = require('./notifications_list');
 var AddNotificationWidget = require('./add_notification');
-var request = require('request-json');
 var InfiniteScroll = require('./infinite_scroll')(React, ReactDOM);
 var api = require('./api');
-var rootUrl = "http://127.0.0.1:8080";
 
-var client = request.createClient(rootUrl);
 
 function getTeamSlug(url){
 	var parser = document.createElement('a');
 	parser.href = url;
 	return parser.pathname.split('/')[1];
-};
+}
 
 var App = React.createClass({
 	getInitialState: function(){
 		var parser = document.createElement('a');
 		parser.href = document.URL;
+		var team = parser.pathname.split('/')[1];
 		return {
 			meta: {
 				offset: 0,
@@ -26,26 +24,26 @@ var App = React.createClass({
 			},
 			items: [],
 			hasMore: true,
-			team: parser.pathname.split('/')[1]
+			team: team
 		};
 	},
 	loadMore: function(){
-		client.get(api.url('/:team/notifications', {
+		api.get('/:team/notifications',
+			{
 				team: this.state.team,
 				offset: this.state.meta.offset,
 				limit: this.state.meta.limit
-			}),
-			function(err, res, data){
-				if(!err) {
-					var hasMore = this.state.items.length < data.meta.total;
-					data.meta.offset += this.state.meta.limit;
-					this.setState({
-						meta: data.meta,
-						items: this.state.items.concat(data.items),
-						hasMore: hasMore
-					});
-				}
-			}.bind(this));
+			},
+			function(data){
+				var hasMore = this.state.items.length < data.meta.total;
+				data.meta.offset += this.state.meta.limit;
+				this.setState({
+					meta: data.meta,
+					items: this.state.items.concat(data.items),
+					hasMore: hasMore
+				});
+			}.bind(this)
+		);
 	},
 	loader: function(){
 		return <div>
@@ -57,7 +55,7 @@ var App = React.createClass({
 	},
 	render: function(){
 		return <div>
-				<AddNotificationWidget />
+				<AddNotificationWidget team={this.state.team}/>
 				<InfiniteScroll
 					loadMore={this.loadMore}
 					hasMore={this.state.hasMore}
