@@ -27,8 +27,11 @@ var App = React.createClass({
 		};
 	},
 	loadMore: function(){
-		client.get(api.url('/:team/notifications',
-			{team: 'demo-team', offset: this.state.meta.offset, limit: this.state.meta.limit}),
+		client.get(api.url('/:team/notifications', {
+				team: 'demo-team',
+				offset: this.state.meta.offset,
+				limit: this.state.meta.limit
+			}),
 			function(err, res, data){
 				if(!err) {
 					var hasMore = this.state.items.length < data.meta.total ? true : false;
@@ -41,12 +44,21 @@ var App = React.createClass({
 				}
 			}.bind(this));
 	},
+	loader: function(){
+		return <div>
+			<p>
+				<i className="icon-spin5 animate-spin">
+				</i>
+			</p>
+		</div>
+	},
 	render: function(){
 		return <div>
 				<AddNotificationWidget />
 				<InfiniteScroll
 					loadMore={this.loadMore}
 					hasMore={this.state.hasMore}
+					loader={this.loader()}
 				>
 					<NotificationsList data={this.state.items} />
 				</InfiniteScroll>
