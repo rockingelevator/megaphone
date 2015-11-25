@@ -37,7 +37,7 @@ var App = React.createClass({
 			}),
 			function(err, res, data){
 				if(!err) {
-					var hasMore = this.state.items.length < data.meta.total ? true : false;
+					var hasMore = this.state.items.length < data.meta.total;
 					data.meta.offset += this.state.meta.limit;
 					this.setState({
 						meta: data.meta,
