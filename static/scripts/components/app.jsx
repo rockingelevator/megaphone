@@ -17,6 +17,8 @@ function getTeamSlug(url){
 
 var App = React.createClass({
 	getInitialState: function(){
+		var parser = document.createElement('a');
+		parser.href = document.URL;
 		return {
 			meta: {
 				offset: 0,
@@ -24,11 +26,12 @@ var App = React.createClass({
 			},
 			items: [],
 			hasMore: true,
+			team: parser.pathname.split('/')[1]
 		};
 	},
 	loadMore: function(){
 		client.get(api.url('/:team/notifications', {
-				team: 'demo-team',
+				team: this.state.team,
 				offset: this.state.meta.offset,
 				limit: this.state.meta.limit
 			}),
