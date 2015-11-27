@@ -9,6 +9,10 @@
         <a href="{{ app.router['home'].url() }}">
             <img class="logo" src="/static/img/loudspeaker.svg">
         </a>
-        <div id="content"></div>
+        <div id="app-view"></div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/scripts/main.js"></script>
 {% endblock %}

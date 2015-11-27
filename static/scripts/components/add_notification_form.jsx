@@ -1,6 +1,6 @@
 var React = require('react');
 var Select = require('./select');
-var api = require('./api');
+var Api = require('../utils/api');
 
 module.exports = React.createClass({
     componentDidMount: function(){
@@ -8,7 +8,7 @@ module.exports = React.createClass({
     },
     getInitialState: function(){
       return {
-          type: '',
+          type: 'Important',
           message: ''
       };
     },
@@ -16,7 +16,7 @@ module.exports = React.createClass({
         this.setState({message: event.target.value});
     },
     createNotification: function(){
-        api.post('/:team/notifications', {
+        Api.post('/:team/notifications', {
             team: this.props.team
         },{
             type: this.state.type,

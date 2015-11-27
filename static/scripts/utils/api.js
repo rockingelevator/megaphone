@@ -56,9 +56,10 @@ module.exports = {
 
     get: function(path, params, callback){
         var url = this.ROOT_URL + this.makePath(path, params);
-        $.getJSON(url, {}, function(data){
-            callback(data);
-        });
+        //$.getJSON(url, {}, function(data){
+        //    callback(data);
+        //});
+        return $.getJSON(url);
     },
 
     post: function(path, params, data, callback){
