@@ -1,7 +1,8 @@
 import asyncio
+
 import sqlalchemy as sa
 import datetime
-from aiohttp import web
+from aiohttp import web, MsgType
 from utils.utils import json_response, is_iterable
 from aiohttp_session import get_session
 from src.handlers import check_if_user_in_team
@@ -127,3 +128,23 @@ def teams(request):
         schema = schemas.TeamSchema(many=True)
         return json_response(schema.dump(result).data)
 
+
+async def notifications_websocket_handler(request):
+
+    ws = web.WebSocketResponse()
+    await ws.prepare(request)
+
+    while not ws.closed:
+        msg = await ws.receive()
+
+        if msg.tp == MsgType.text:
+            if msg.data == 'close':
+                await ws.close()
+            else:
+               ws.send_str(msg.data+'/answer')
+        elif msg.tp == MsgType.close:
+            print('websocket connection closed')
+        elif msg.tp == MsgType.error:
+            print('ws connection closed with exception %s' % ws.exception())
+
+    return ws

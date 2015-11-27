@@ -1,4 +1,6 @@
 import asyncio
+import aiohttp
+import sockjs
 from aiohttp_debugtoolbar import toolbar_middleware_factory
 import aiohttp_jinja2, jinja2
 from aiohttp import web
@@ -47,13 +49,18 @@ app.router.add_route('GET',
                      handlers.notifications,
                      name="notifications"
                      )
+
 app.router.add_route('GET', '/login', handlers.login, name="login")
 app.router.add_route('POST', '/login', handlers.login, name="submit_login")
 app.router.add_route('GET', '/logout', handlers.logout, name="logout")
+
 #API routes
 with add_route_context(app, module='src.api.handlers',
                        url_prefix='/api/', name_prefix='api') as route:
     route('GET', '/{team_slug}/notifications', 'notifications')
     route('POST', '/{team_slug}/notifications', 'add_notification')
+    route('GET', '/ws/{team_slug}/notifications', 'notifications_websocket_handler')
     route('GET', '/users', 'users')
     route('GET', '/teams', 'teams')
+
+
