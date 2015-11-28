@@ -41,6 +41,11 @@ module.exports = React.createClass({
 				});
 			}
 		}.bind(this);
+
+		$(window).unload(function(){
+			console.log('closing connection');
+			this.state.connection.close();
+		}.bind(this));
 	},
 	getInitialState: function(){
 		var parser = document.createElement('a');

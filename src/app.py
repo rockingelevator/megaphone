@@ -36,7 +36,7 @@ app = web.Application(middlewares=[
 # db settings
 app['dsn'] = settings.DSN
 
-app['sockets'] = []
+app['sockets'] = {}
 
 # configuring path to templates
 aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader('templates'))

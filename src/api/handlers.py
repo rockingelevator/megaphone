@@ -180,15 +180,24 @@ def teams(request):
 @asyncio.coroutine
 def notifications_websocket_handler(request, team=None):
 
-    ws = web.WebSocketResponse()
-    yield from ws.prepare(request)
+    resp = web.WebSocketResponse()
+    yield from resp.prepare(request)
+    socket_name = team['slug']
 
-    while not ws.closed:
-        msg = yield from ws.receive()
+    socket_list_exists = request.app['sockets'].get(socket_name, None)
+    if not socket_list_exists:
+        print('list of sockets is not exists, creating one')
+        request.app['sockets'][socket_name] = []
+    request.app['sockets'][socket_name].append(resp)
+    print(len(request.app['sockets'][socket_name]))
+
+    while not resp.closed:
+        msg = yield from resp.receive()
 
         if msg.tp == MsgType.text:
             if msg.data == 'close':
-                yield from ws.close()
+                yield from resp.close()
+                request.app['sockets'][socket_name].remove(resp)
             else:
                 try:
                     data = json.loads(msg.data)
@@ -200,10 +209,13 @@ def notifications_websocket_handler(request, team=None):
                     except Exception as e:
                         print(str(e))
                     else:
-                        ws.send_str(json.dumps(c))
+                        for ws in request.app['sockets'][socket_name]:
+                            ws.send_str(json.dumps(c))
 
         elif msg.tp == MsgType.close:
+            request.app['sockets'][socket_name].remove(resp)
             print('websocket connection closed')
+
         elif msg.tp == MsgType.error:
             print('ws connection closed with exception %s' % ws.exception())
 
