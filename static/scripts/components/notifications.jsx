@@ -29,8 +29,14 @@ module.exports = React.createClass({
 
 		// Log messages from the server
 		this.state.connection.onmessage = function (e) {
-		  console.log('Server: ' + e.data);
-		};
+			var nfData = JSON.parse(e.data);
+			console.log(nfData);
+			if(nfData && nfData.id){
+				var items = this.state.items;
+				items.unshift(nfData);
+				this.setState({items: items});
+			}
+		}.bind(this);
 	},
 	getInitialState: function(){
 		var parser = document.createElement('a');

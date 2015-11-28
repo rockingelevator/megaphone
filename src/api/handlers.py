@@ -73,27 +73,27 @@ def notifications(request, team=None, limit=20, offset=0):
         return json_response(result)
 
 
-@check_if_user_in_team
-@asyncio.coroutine
-def add_notification(request, team=None):
-    data = yield from request.post()
-    type = data.get('type', '')
-    message = data.get('message', '')
-    if not type or not message:
-        return web.HTTPBadRequest(reason='Type and message are required')
-    session = yield from get_session(request)
-    with(yield from request.app['db']) as conn:
-        ins_query = models.notifications.insert().values(
-            team=team['id'],
-            author=session['user_id'],
-            type=type,
-            message=message,
-            creation_date=datetime.datetime.now()
-        )
-        if(yield from conn.execute(ins_query)):
-            return web.HTTPCreated()
-        else:
-            return web.HTTPBadRequest(reason='Error while saving')
+# @check_if_user_in_team
+# @asyncio.coroutine
+# def add_notification(request, team=None):
+#     data = yield from request.post()
+#     type = data.get('type', '')
+#     message = data.get('message', '')
+#     if not type or not message:
+#         return web.HTTPBadRequest(reason='Type and message are required')
+#     session = yield from get_session(request)
+#     with(yield from request.app['db']) as conn:
+#         ins_query = models.notifications.insert().values(
+#             team=team['id'],
+#             author=session['user_id'],
+#             type=type,
+#             message=message,
+#             creation_date=datetime.datetime.now()
+#         )
+#         if(yield from conn.execute(ins_query)):
+#             return web.HTTPCreated()
+#         else:
+#             return web.HTTPBadRequest(reason='Error while saving')
 
 
 @asyncio.coroutine
@@ -106,19 +106,43 @@ def create_notification(request, type, message, team_id):
         raise ValueError("team_id arg is required")
 
     session = yield from get_session(request)
-
+    nf_data = {
+            'team': team_id,
+            'author': session['user_id'],
+            'type': type,
+            'message': message,
+            'creation_date': datetime.datetime.now()
+        }
     with(yield from request.app['db']) as conn:
-        ins_query = models.notifications.insert().values(
-            team=team_id,
-            author=session['user_id'],
-            type=type,
-            message=message,
-            creation_date=datetime.datetime.now()
-        )
-        if(yield from conn.execute(ins_query)):
-            return
+
+        trans = yield from conn.begin()
+        try:
+            ins_query = models.notifications.insert().values(nf_data)
+
+            try:
+                res = yield from conn.execute(ins_query)
+            except Exception as e:
+                print(str(e))
+                raise AssertionError('can not save notification')
+            else:
+                nf_data['id'] = (yield from res.first())[0]
+                nf_data['creation_date'] = str(nf_data['creation_date'])
+                usr_query = sa.select([models.users]).where(models.users.c.id == session['user_id'])
+                usr_res = yield from conn.execute(usr_query)
+                usr_res = yield from usr_res.first()
+                nf_data['author'] = {
+                    'id': usr_res['avatar'],
+                    'first_name': usr_res['first_name'],
+                    'last_name': usr_res['last_name'],
+                    'avatar': usr_res['avatar']
+                }
+
+        except Exception:
+            yield from trans.rollback()
         else:
-            raise AssertionError('can not save notification')
+            yield from trans.commit()
+            return nf_data
+
 
 @asyncio.coroutine
 def users(request, **kwargs):
@@ -127,7 +151,6 @@ def users(request, **kwargs):
         ret = yield from conn.execute(query)
         schema = schemas.UserSchema(many=True)
         result = schema.dump(list(ret))
-        #items = [schema.dump(row).data for row in ret] if is_iterable(ret) else []
         return json_response(result.data)
 
 
@@ -174,13 +197,10 @@ def notifications_websocket_handler(request, team=None):
                 else:
                     try:
                         c = yield from create_notification(request, data['type'], data['message'], team['id'])
-                    except AssertionError as e:
-                        print(str(e))
                     except Exception as e:
                         print(str(e))
                     else:
-                        print('Created!')
-
+                        ws.send_str(json.dumps(c))
 
         elif msg.tp == MsgType.close:
             print('websocket connection closed')
