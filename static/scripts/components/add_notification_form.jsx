@@ -14,18 +14,13 @@ module.exports = React.createClass({
         this.setState({message: event.target.value});
     },
     createNotification: function(){
-        //NotificationsStore.postNotification(this.props.team, {
-        //   type: this.state.type,
-        //    message: this.state.message
-        //}).then(function(){
-        //    var status = NotificationsStore.postNfStatus;
-        //    console.log(status);
-        //}.bind(this));
         var nf = {
             type: this.state.type,
             message: this.state.message
         };
         this.props.connection.send(JSON.stringify(nf));
+        this.setState({message: ''});
+        this.props.onPost();
     },
     handleTypeChanged: function(event){
       this.setState({type: event.target.value});
@@ -36,7 +31,7 @@ module.exports = React.createClass({
             <Select whenChanged={this.handleTypeChanged} options={types}/>
             <textarea
                 className="textinput"
-                defaultValue={this.state.message}
+                value={this.state.message}
                 onChange={this.handleMessageChange}
             >
             </textarea>

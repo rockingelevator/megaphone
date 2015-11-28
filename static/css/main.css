@@ -297,9 +297,11 @@ img.logo {
   padding: 1px;
 }
 #notifications ul li p.message .text {
+  width: 90%;
   display: block;
+  line-height: 1.5;
   float: left;
-  margin: 5px 0 0 15px;
+  margin: 5px 0 10px 15px;
 }
 #notifications ul li a.ava {
   position: absolute;

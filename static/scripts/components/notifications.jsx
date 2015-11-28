@@ -15,7 +15,6 @@ function getTeamSlug(url){
 module.exports = React.createClass({
 
 	componentDidMount: function(){
-
 		// When the connection is open, send some data to the server
 		this.state.connection.onopen = function () {
 		  this.state.connection.send('Ping'); // Send the message 'Ping' to the server
@@ -80,7 +79,10 @@ module.exports = React.createClass({
 	},
 	render: function(){
 		return <div>
-				<AddNotificationWidget team={this.state.team} connection={this.state.connection} />
+				<AddNotificationWidget
+						team={this.state.team}
+						connection={this.state.connection}
+				/>
 				<InfiniteScroll
 					loadMore={this.loadMore}
 					hasMore={this.state.hasMore}
