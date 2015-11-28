@@ -28,6 +28,7 @@ module.exports = React.createClass({
 
 		// Log messages from the server
 		this.state.connection.onmessage = function (e) {
+			console.log('Server: ' + e.data);
 			var nfData = JSON.parse(e.data);
 			if(nfData && nfData.id){
 				var items = this.state.items;

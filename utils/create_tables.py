@@ -36,6 +36,13 @@ def create_demo_user():
             "email": "test@test.com",
             "password": pwd2,
             "avatar": "helga.png"
+        },
+        {
+            "first_name": "Ivan",
+            "last_name": "Ivanovich",
+            "email": "demo2@demo.com",
+            "password": pwd,
+            "avatar": ""
         }
     ]
     conn = engine.connect()
@@ -50,10 +57,16 @@ def create_demo_team():
     )
     conn = engine.connect()
     conn.execute(query)
-    add_owner_relation = models.teams_users.insert().values(
-        team=1,
-        user=1
-    )
+    add_owner_relation = models.teams_users.insert().values([
+        {
+            'team': 1,
+            'user': 1
+        },
+        {
+            'team': 1,
+            'user': 2
+        }
+    ])
     conn.execute(add_owner_relation)
 
 

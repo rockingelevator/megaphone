@@ -193,7 +193,7 @@ def notifications_websocket_handler(request, team=None):
                 try:
                     data = json.loads(msg.data)
                 except json.JSONDecodeError:
-                    print('To create a notification pass data')
+                    pass
                 else:
                     try:
                         c = yield from create_notification(request, data['type'], data['message'], team['id'])
