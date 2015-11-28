@@ -64,7 +64,8 @@ module.exports = {
 
     post: function(path, params, data, callback){
         var url = this.ROOT_URL + this.makePath(path, params);
-        $.post(url, data, function(data){ callback(data); });
+        //$.post(url, data, function(data){ callback(data); });
+        return $.post(url, data);
     }
 };
 

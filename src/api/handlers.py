@@ -1,5 +1,5 @@
 import asyncio
-
+import json
 import sqlalchemy as sa
 import datetime
 from aiohttp import web, MsgType
@@ -97,6 +97,30 @@ def add_notification(request, team=None):
 
 
 @asyncio.coroutine
+def create_notification(request, type, message, team_id):
+    if not type:
+        raise ValueError("type arg is required")
+    if not message:
+        raise ValueError("message arg is required")
+    if not team_id:
+        raise ValueError("team_id arg is required")
+
+    session = yield from get_session(request)
+
+    with(yield from request.app['db']) as conn:
+        ins_query = models.notifications.insert().values(
+            team=team_id,
+            author=session['user_id'],
+            type=type,
+            message=message,
+            creation_date=datetime.datetime.now()
+        )
+        if(yield from conn.execute(ins_query)):
+            return
+        else:
+            raise AssertionError('can not save notification')
+
+@asyncio.coroutine
 def users(request, **kwargs):
     with(yield from request.app['db']) as conn:
         query = sa.select([models.users])
@@ -129,19 +153,35 @@ def teams(request):
         return json_response(schema.dump(result).data)
 
 
-async def notifications_websocket_handler(request):
+@check_if_user_in_team
+@asyncio.coroutine
+def notifications_websocket_handler(request, team=None):
 
     ws = web.WebSocketResponse()
-    await ws.prepare(request)
+    yield from ws.prepare(request)
 
     while not ws.closed:
-        msg = await ws.receive()
+        msg = yield from ws.receive()
 
         if msg.tp == MsgType.text:
             if msg.data == 'close':
-                await ws.close()
+                yield from ws.close()
             else:
-               ws.send_str(msg.data+'/answer')
+                try:
+                    data = json.loads(msg.data)
+                except json.JSONDecodeError:
+                    print('To create a notification pass data')
+                else:
+                    try:
+                        c = yield from create_notification(request, data['type'], data['message'], team['id'])
+                    except AssertionError as e:
+                        print(str(e))
+                    except Exception as e:
+                        print(str(e))
+                    else:
+                        print('Created!')
+
+
         elif msg.tp == MsgType.close:
             print('websocket connection closed')
         elif msg.tp == MsgType.error:

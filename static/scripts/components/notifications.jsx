@@ -30,9 +30,6 @@ module.exports = React.createClass({
 		// Log messages from the server
 		this.state.connection.onmessage = function (e) {
 		  console.log('Server: ' + e.data);
-		  var result = document.getElementById('result');
-
-		  //result.innerHTML = result.innerHTML + "<br>" + e.data;
 		};
 	},
 	getInitialState: function(){
@@ -73,7 +70,7 @@ module.exports = React.createClass({
 	},
 	render: function(){
 		return <div>
-				<AddNotificationWidget team={this.state.team}/>
+				<AddNotificationWidget team={this.state.team} connection={this.state.connection} />
 				<InfiniteScroll
 					loadMore={this.loadMore}
 					hasMore={this.state.hasMore}

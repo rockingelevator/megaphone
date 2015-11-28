@@ -11,5 +11,12 @@ module.exports = Reflux.createStore({
 			}).then(function(data){
 				    this.notifications = data;
 				}.bind(this));
+    },
+	postNotification: function(team, data){
+        return Api.post('/:team/notifications', {
+            team: team
+        }, data).then(function(data){
+            this.postNfStatus = data;
+        }.bind(this));
     }
 });

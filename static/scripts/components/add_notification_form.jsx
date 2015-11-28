@@ -1,11 +1,9 @@
 var React = require('react');
 var Select = require('./select');
 var Api = require('../utils/api');
+var NotificationsStore = require('../stores/notifications_store.jsx');
 
 module.exports = React.createClass({
-    componentDidMount: function(){
-
-    },
     getInitialState: function(){
       return {
           type: 'Important',
@@ -16,14 +14,18 @@ module.exports = React.createClass({
         this.setState({message: event.target.value});
     },
     createNotification: function(){
-        Api.post('/:team/notifications', {
-            team: this.props.team
-        },{
+        //NotificationsStore.postNotification(this.props.team, {
+        //   type: this.state.type,
+        //    message: this.state.message
+        //}).then(function(){
+        //    var status = NotificationsStore.postNfStatus;
+        //    console.log(status);
+        //}.bind(this));
+        var nf = {
             type: this.state.type,
             message: this.state.message
-        }, function(data){
-            console.log('Post succeed: ', data);
-        });
+        };
+        this.props.connection.send(JSON.stringify(nf));
     },
     handleTypeChanged: function(event){
       this.setState({type: event.target.value});
