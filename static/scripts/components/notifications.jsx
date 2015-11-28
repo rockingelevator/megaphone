@@ -30,11 +30,15 @@ module.exports = React.createClass({
 		// Log messages from the server
 		this.state.connection.onmessage = function (e) {
 			var nfData = JSON.parse(e.data);
-			console.log(nfData);
 			if(nfData && nfData.id){
 				var items = this.state.items;
 				items.unshift(nfData);
-				this.setState({items: items});
+				var meta = this.state.meta;
+				meta.offset += 1;
+				this.setState({
+					items: items,
+					meta: meta
+				});
 			}
 		}.bind(this);
 	},
