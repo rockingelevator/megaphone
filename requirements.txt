@@ -23,4 +23,5 @@ pyasn1==0.1.9
 pycparser==2.14
 python-mimeparse==0.1.4
 six==1.10.0
+sockjs==0.3
 ujson==1.33
