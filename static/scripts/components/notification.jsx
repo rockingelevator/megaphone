@@ -3,8 +3,8 @@ var TypeBadge = require('./type_badge.jsx');
 var moment = require('moment');
 
 module.exports = React.createClass({
-    componentWillMount: function(){
-
+    removeNotification: function(){
+      this.props.whenRemoved(this.props.data.id, this.props.index);
     },
     render: function(){
         var time = moment(this.props.data.creation_date).calendar();
@@ -23,7 +23,10 @@ module.exports = React.createClass({
                     <a className="ava">
                        <img src={ava}/>
                     </a>
-                    <a className={"ava remove " + (this.props.userId == this.props.data.author.id ? "show" : "")}>
+                    <a
+                        className={"ava remove " + (this.props.userId == this.props.data.author.id ? "show" : "")}
+                        onClick={this.removeNotification}
+                    >
                         <i className="icon-minus-circled">
                         </i>
                     </a>

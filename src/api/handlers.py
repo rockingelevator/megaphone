@@ -242,3 +242,42 @@ def notifications_websocket_handler(request, team=None):
             print('ws connection closed with exception %s' % resp.exception())
 
     return resp
+
+
+@asyncio.coroutine
+def remove_notification(request):
+    id = request.path.split('/')[-1]
+    result = {'error': ''}
+    if id:
+        session = yield from get_session(request)
+        user_id = session['user_id'] if 'user_id' in session else None
+        if not user_id:
+            result = {'error': 'You must be loged in to remove item'}
+        else:
+            with(yield from request.app['db']) as conn:
+                trans = yield from conn.begin()
+                try:
+                    query = sa.select([models.notifications])\
+                        .where(models.notifications.c.id == id)
+                    res = yield from conn.execute(query)
+                    nf = yield from res.fetchone()
+                    if not nf:
+                        result = {'error': 'No such item'}
+                    elif nf['author'] != user_id:
+                        result = {'error': 'You can not remove this item. Its not yours, you silly dog!'}
+                    else:
+                        if (yield from conn.execute(models.notifications.delete()\
+                                                    .where(models.notifications.c.id == id))):
+                            result = {"id": id}
+                        else:
+                            result = {'erorr': 'Error on save'}
+                except Exception as e:
+                    print(str(e))
+                    yield from trans.rollback()
+                else:
+                    yield from trans.commit()
+    else:
+        print('Can not delete noitfication: no id')
+        result = {'error': 'Can not delete noitfication: no id'}
+    print(json.dumps(result))
+    return json_response(json.dumps(result))

@@ -85,6 +85,17 @@ module.exports = React.createClass({
 			</p>
 		</div>
 	},
+	removeNotification: function(id, index){
+		NotificationsStore.removeNotification(id, function(data){
+			if('id' in data){
+				this.state.items.splice(index, 1);
+				this.forceUpdate();
+			}
+			else {
+				console.log(data.error);
+			}
+		}.bind(this));
+	},
 	render: function(){
 		return <div>
 				<AddNotificationWidget
@@ -96,7 +107,11 @@ module.exports = React.createClass({
 					hasMore={this.state.hasMore}
 					loader={this.loader()}
 				>
-					<NotificationsList data={this.state.items} userId={this.state.meta.user_id}/>
+					<NotificationsList
+							data={this.state.items}
+							userId={this.state.meta.user_id}
+							onItemRemoved={this.removeNotification}
+					/>
 				</InfiniteScroll>
 			</div>
 	}

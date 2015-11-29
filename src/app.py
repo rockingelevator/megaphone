@@ -66,5 +66,6 @@ with add_route_context(app, module='src.api.handlers',
     route('GET', '/users', 'users')
     route('GET', '/teams', 'teams')
     route('GET', '/me', 'me')
+    route('DELETE', '/notifications/{id}', 'remove_notification')
 
 

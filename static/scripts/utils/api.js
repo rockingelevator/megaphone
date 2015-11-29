@@ -66,6 +66,17 @@ module.exports = {
         var url = this.ROOT_URL + this.makePath(path, params);
         //$.post(url, data, function(data){ callback(data); });
         return $.post(url, data);
+    },
+
+    remove: function(path, params, callback){
+        var url = this.ROOT_URL + this.makePath(path, params);
+        return $.ajax({
+            url: url,
+            type: 'DELETE',
+            success: function(data){
+                callback(JSON.parse(data));
+            }
+        });
     }
 };
 

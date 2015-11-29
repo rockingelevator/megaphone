@@ -18,5 +18,11 @@ module.exports = Reflux.createStore({
         }, data).then(function(data){
             this.postNfStatus = data;
         }.bind(this));
+    },
+    removeNotification: function(id, callback){
+        return Api.remove('/notifications/:id', {id: id}, callback)
+            .then(function(data){
+                this.removeStatus = data;
+            }.bind(this));
     }
 });
