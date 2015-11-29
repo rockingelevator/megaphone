@@ -29,14 +29,14 @@ def to_json(handler):
 
 @check_if_user_in_team
 @asyncio.coroutine
-def notifications(request, team=None, limit=20, offset=0):
+def notifications(request, team=None, user_id=None, limit=20, offset=0):
     limit = int(request.GET.get('limit', 20))
     offset = int(request.GET.get('offset', 0))
     with(yield from request.app['db']) as conn:
         nf = models.notifications.alias()
         us = models.users.alias()
         items = []
-        nf_count = 0;
+        nf_count = 0
         trans = yield from conn.begin()
 
         try:
@@ -65,7 +65,8 @@ def notifications(request, team=None, limit=20, offset=0):
             'meta': {
                 'offset': offset,
                 'limit': limit,
-                'total': nf_count
+                'total': nf_count,
+                'user_id': user_id
             },
             'items': schema.dump(items).data
         }
@@ -142,6 +143,23 @@ def create_notification(request, type, message, team_id):
         else:
             yield from trans.commit()
             return nf_data
+
+
+@asyncio.coroutine
+def me(request):
+    session = yield from get_session(request)
+    try:
+        user_id = session['user_id']
+    except KeyError:
+        return json_response({})
+    else:
+        with(yield from request.app['db']) as conn:
+            query = sa.select([models.users]).where(models.users.c.id == user_id)
+            u = yield from conn.execute(query)
+            user = yield from u.fetchone()
+            schema = schemas.UserSchema()
+            result = schema.dump(user)
+            return json_response(result.data)
 
 
 @asyncio.coroutine

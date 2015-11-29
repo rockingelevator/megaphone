@@ -3,6 +3,9 @@ var TypeBadge = require('./type_badge.jsx');
 var moment = require('moment');
 
 module.exports = React.createClass({
+    componentWillMount: function(){
+
+    },
     render: function(){
         var time = moment(this.props.data.creation_date).calendar();
         var ava = "/static/img/avas/" + this.props.data.author.avatar;
@@ -19,6 +22,10 @@ module.exports = React.createClass({
                     </p>
                     <a className="ava">
                        <img src={ava}/>
+                    </a>
+                    <a className="ava remove ">
+                        <i className="icon-minus-circled">
+                        </i>
                     </a>
                 </li>
     }

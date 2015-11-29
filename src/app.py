@@ -65,5 +65,6 @@ with add_route_context(app, module='src.api.handlers',
     route('GET', '/ws/{team_slug}/notifications', 'notifications_websocket_handler')
     route('GET', '/users', 'users')
     route('GET', '/teams', 'teams')
+    route('GET', '/me', 'me')
 
 

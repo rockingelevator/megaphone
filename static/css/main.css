@@ -308,6 +308,22 @@ img.logo {
   right: -20px;
   margin-top: 5px;
 }
+#notifications ul li a.ava.remove {
+  display: none;
+  right: -60px;
+  background-color: transparent;
+}
+#notifications ul li a.ava.remove i {
+  color: #c1c1c1;
+  padding: 8px 6px;
+  font-size: 14px;
+}
+#notifications ul li a.ava.remove:hover {
+  background-color: #ec5a48;
+}
+#notifications ul li a.ava.remove:hover i {
+  color: #fff;
+}
 a.btn.fancy {
   display: block;
   height: 30px;

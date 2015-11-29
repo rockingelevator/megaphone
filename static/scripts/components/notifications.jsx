@@ -5,6 +5,7 @@ var AddNotificationWidget = require('./add_notification');
 var InfiniteScroll = require('./infinite_scroll')(React, ReactDOM);
 var Api = require('../utils/api');
 var NotificationsStore = require('../stores/notifications_store');
+var UsersStore = require('../stores/users_store');
 
 function getTeamSlug(url){
 	var parser = document.createElement('a');
@@ -50,6 +51,7 @@ module.exports = React.createClass({
 		var parser = document.createElement('a');
 		parser.href = document.URL;
 		var team = parser.pathname.split('/')[1];
+
 		return {
 			meta: {
 				offset: 0,
@@ -58,7 +60,8 @@ module.exports = React.createClass({
 			items: [],
 			hasMore: true,
 			team: team,
-			connection: new WebSocket("ws://127.0.0.1:8080/api/ws/" + team + "/notifications")
+			connection: new WebSocket("ws://127.0.0.1:8080/api/ws/" + team + "/notifications"),
+			my: {}
 		};
 	},
 	loadMore: function(){
@@ -93,7 +96,7 @@ module.exports = React.createClass({
 					hasMore={this.state.hasMore}
 					loader={this.loader()}
 				>
-					<NotificationsList data={this.state.items} />
+					<NotificationsList data={this.state.items}/>
 				</InfiniteScroll>
 			</div>
 	}
