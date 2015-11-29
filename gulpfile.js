@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var stylus = require('gulp-stylus');
+var concatCss = require('gulp-concat-css');
 var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
@@ -18,6 +19,7 @@ gulp.task('stylus', function() {
 
 gulp.task('cssBuild', function(){
     gulp.src('./static/css/**/*.css')
+        .pipe(concatCss('main.css'))
         .pipe(minifyCss())
         .pipe(gulp.dest('./static/dist/css'))
 });
@@ -52,7 +54,8 @@ gulp.task('default', function(){
     build();
     bundler.on('update', build);
 
-    gulp.watch('./styl/**/*.styl', ['stylus']);
+    gulp.start('stylus', 'cssBuild');
+    gulp.watch('./styl/**/*.styl', ['stylus', 'cssBuild']);
 });
 
 

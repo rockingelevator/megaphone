@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'megaphone_icons';
-  src: url('../font/megaphone_icons.eot?88599672');
-  src: url('../font/megaphone_icons.eot?88599672#iefix') format('embedded-opentype'),
-       url('../font/megaphone_icons.woff?88599672') format('woff'),
-       url('../font/megaphone_icons.ttf?88599672') format('truetype'),
-       url('../font/megaphone_icons.svg?88599672#megaphone_icons') format('svg');
+  src: url('../../font/megaphone_icons.eot?88599672');
+  src: url('../../font/megaphone_icons.eot?88599672#iefix') format('embedded-opentype'),
+       url('../../font/megaphone_icons.woff?88599672') format('woff'),
+       url('../../font/megaphone_icons.ttf?88599672') format('truetype'),
+       url('../../font/megaphone_icons.svg?88599672#megaphone_icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
