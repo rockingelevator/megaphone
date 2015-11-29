@@ -48,7 +48,36 @@ def check_if_user_in_team(handler):
     return check
 
 
+def add_session_data(handler):
+    """
+    adds session data to response
+    """
+    @asyncio.coroutine
+    def wrapped(request, **kwargs):
+        res = yield from handler(request, **kwargs)
+        if isinstance(res, dict):
+            session = yield from get_session(request)
+            try:
+                user_id = session['user_id']
+            except KeyError:
+                pass
+            else:
+                with (yield from request.app['db']) as conn:
+                    query = sa.select([models.users]).where(models.users.c.id == user_id)
+                    usr = yield from conn.execute(query)
+                    user = yield from usr.fetchone()
+                res['user'] = {
+                    'id': user['id'],
+                    'first_name': user['first_name'],
+                    'last_name': user['last_name'],
+                    'avatar': user['avatar'],
+                }
+        return res
+    return wrapped
+
+
 @aiohttp_jinja2.template('home.jinja2')
+@add_session_data
 async def home(request):
     return {}
 
@@ -79,19 +108,20 @@ async def logout(request):
 
 
 @aiohttp_jinja2.template('notifications.jinja2')
+@add_session_data
 @check_if_user_in_team
 @asyncio.coroutine
 def notifications(request, team=None):
-    with(yield from request.app['db']) as conn:
-        notif = models.notifications.alias()
-        recent_notif_query = sa.select([notif])\
-            .where(notif.c.team == team['id'])\
-            .order_by(sa.desc(notif.c.creation_date))\
-            .limit(20)
-        n_list = yield from (yield from conn.execute(recent_notif_query)).fetchall()
+    # with(yield from request.app['db']) as conn:
+    #     notif = models.notifications.alias()
+    #     recent_notif_query = sa.select([notif])\
+    #         .where(notif.c.team == team['id'])\
+    #         .order_by(sa.desc(notif.c.creation_date))\
+    #         .limit(20)
+    #     n_list = yield from (yield from conn.execute(recent_notif_query)).fetchall()
     return {
-        'team': team,
-        'n_list': n_list
+        'team': team
+        #'n_list': n_list
     }
 
 

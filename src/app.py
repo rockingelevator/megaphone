@@ -13,6 +13,7 @@ import settings
 
 from src.api import handlers as api_handlers
 
+
 # db middleware
 @asyncio.coroutine
 def db_middleware(app, handler):

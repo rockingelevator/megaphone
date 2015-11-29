@@ -189,7 +189,6 @@ def notifications_websocket_handler(request, team=None):
         print('list of sockets is not exists, creating one')
         request.app['sockets'][socket_name] = []
     request.app['sockets'][socket_name].append(resp)
-    print(len(request.app['sockets'][socket_name]))
 
     while not resp.closed:
         msg = yield from resp.receive()
@@ -223,4 +222,4 @@ def notifications_websocket_handler(request, team=None):
         elif msg.tp == MsgType.error:
             print('ws connection closed with exception %s' % resp.exception())
 
-    return ws
+    return resp
