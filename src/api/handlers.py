@@ -198,6 +198,8 @@ def notifications_websocket_handler(request, team=None):
             if msg.data == 'close':
                 yield from resp.close()
                 request.app['sockets'][socket_name].remove(resp)
+                if len(request.app['sockets'][socket_name]) < 1:
+                    del request.app['sockets'][socket_name]
             else:
                 try:
                     data = json.loads(msg.data)
@@ -214,6 +216,8 @@ def notifications_websocket_handler(request, team=None):
 
         elif msg.tp == MsgType.close:
             request.app['sockets'][socket_name].remove(resp)
+            if len(request.app['sockets'][socket_name]) < 1:
+                del request.app['sockets'][socket_name]
             print('websocket connection closed')
 
         elif msg.tp == MsgType.error:
