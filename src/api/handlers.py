@@ -29,7 +29,7 @@ def to_json(handler):
 
 @check_if_user_in_team
 @asyncio.coroutine
-def notifications(request, team=None, user_id=None, limit=20, offset=0):
+def notifications(request, team=None, limit=20, offset=0):
     limit = int(request.GET.get('limit', 20))
     offset = int(request.GET.get('offset', 0))
     with(yield from request.app['db']) as conn:
@@ -38,7 +38,8 @@ def notifications(request, team=None, user_id=None, limit=20, offset=0):
         items = []
         nf_count = 0
         trans = yield from conn.begin()
-
+        session = yield from get_session(request)
+        user_id = session['user_id'] if 'user_id' in session else None
         try:
             nf_count = yield from conn.scalar(sa.select([sa.func.count(nf.c.id)])
                                           .where(nf.c.team == team['id']))

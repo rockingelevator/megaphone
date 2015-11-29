@@ -6,9 +6,9 @@ module.exports = React.createClass({
 		var myId = this.props.me;
 		var notificationNodes = this.props.data.map(function(notification){
 			return (
-				<Notification key={notification.id} data={notification}/>
+				<Notification key={notification.id} data={notification} userId={this.props.userId}/>
 			);
-		});
+		}.bind(this));
 		return (
 			<ul>
 				{notificationNodes}

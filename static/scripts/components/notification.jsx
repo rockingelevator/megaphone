@@ -23,7 +23,7 @@ module.exports = React.createClass({
                     <a className="ava">
                        <img src={ava}/>
                     </a>
-                    <a className="ava remove ">
+                    <a className={"ava remove " + (this.props.userId == this.props.data.author.id ? "show" : "")}>
                         <i className="icon-minus-circled">
                         </i>
                     </a>

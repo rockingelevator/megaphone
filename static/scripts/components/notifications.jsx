@@ -55,13 +55,13 @@ module.exports = React.createClass({
 		return {
 			meta: {
 				offset: 0,
-				limit: 20
+				limit: 20,
+				user_id: false
 			},
 			items: [],
 			hasMore: true,
 			team: team,
 			connection: new WebSocket("ws://127.0.0.1:8080/api/ws/" + team + "/notifications"),
-			my: {}
 		};
 	},
 	loadMore: function(){
@@ -96,7 +96,7 @@ module.exports = React.createClass({
 					hasMore={this.state.hasMore}
 					loader={this.loader()}
 				>
-					<NotificationsList data={this.state.items}/>
+					<NotificationsList data={this.state.items} userId={this.state.meta.user_id}/>
 				</InfiniteScroll>
 			</div>
 	}
