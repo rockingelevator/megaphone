@@ -10,7 +10,7 @@ module.exports = React.createClass({
 		});
 		return (
 			<ul>
-				{notificationNodes}	
+				{notificationNodes}
 			</ul>
 		);
 	}

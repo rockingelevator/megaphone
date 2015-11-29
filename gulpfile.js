@@ -54,8 +54,8 @@ gulp.task('default', function(){
     build();
     bundler.on('update', build);
 
-    gulp.start('stylus', 'cssBuild');
-    gulp.watch('./styl/**/*.styl', ['stylus', 'cssBuild']);
+    //gulp.start('stylus', 'cssBuild');
+    gulp.watch('./styl/**/*.styl', ['stylus']);
 });
 
 
