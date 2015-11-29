@@ -221,6 +221,6 @@ def notifications_websocket_handler(request, team=None):
             print('websocket connection closed')
 
         elif msg.tp == MsgType.error:
-            print('ws connection closed with exception %s' % ws.exception())
+            print('ws connection closed with exception %s' % resp.exception())
 
     return ws
