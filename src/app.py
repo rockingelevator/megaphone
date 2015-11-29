@@ -1,6 +1,5 @@
 import asyncio
 import aiohttp
-import sockjs
 from aiohttp_debugtoolbar import toolbar_middleware_factory
 import aiohttp_jinja2, jinja2
 from aiohttp import web
