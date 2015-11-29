@@ -35,7 +35,7 @@ app = web.Application(middlewares=[
 ])
 
 # db settings
-app['dsn'] = settings.DSN
+app['dsn'] = settings.DSN_HEROKU
 
 app['sockets'] = {}
 
