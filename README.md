@@ -25,7 +25,7 @@ _More about [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/late
 
    
 #####Cryptography package:
-Cryptography package is used to work with passwords. 
+Cryptography package is used for working with passwords. 
 
 Try: 
 
@@ -50,4 +50,4 @@ $ env LDFLAGS="-L$(brew --prefix openssl)/lib" CFLAGS="-I$(brew --prefix openssl
 
 Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
-App using Heroku postgres database so you dont have to install and configure your own database for demo purposies.
+App is using Heroku postgres database so you dont have to install and configure your own database for demo purposies.
