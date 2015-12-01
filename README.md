@@ -51,3 +51,17 @@ $ env LDFLAGS="-L$(brew --prefix openssl)/lib" CFLAGS="-I$(brew --prefix openssl
 Visit [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 App is using Heroku postgres database so you dont have to install and configure your own database for demo purposies.
+
+#####Demo Login:
+
+_Email:_ demo@demo.com
+
+_Password:_ demo123
+
+#####Utilits
+
+For local databse use these utilits to create tables, demo users and fill dummy data:
+
+`python -m utils.create_tables`
+
+`python -m utils.fill_dummy`
